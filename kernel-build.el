@@ -21,12 +21,6 @@
     (cd old-dir)))
 (global-set-key (kbd "C-c k m") 'sjihs-kernel-make)
 
-;; Unfortunately 'compile' is an async function.
-;; (defun sjihs-kernel-config-and-build (src-dir build-dir config-file)
-;;   (interactive "DSource directory:\nGBuild directory:\nfConfig file:")
-;;   (sjihs-kernel-make-oldconfig src-dir build-dir config-file)
-;;   (sjihs-kernel-make src-dir build-dir))
-
 (defun sjihs-kernel-copy-bzimage-to-guest (build-dir)
   (interactive "DBuild directory:")
   (let ((vmlinux-file (concat build-dir "/" "arch/x86_64/boot/bzImage")))
@@ -54,18 +48,6 @@
 
 (setq sjihs-btrfs-next-build-dir (expand-file-name "~/junk/build/btrfs-next/")
       sjihs-btrfs-next-config-file (expand-file-name "~/Dropbox/documents/linux-kernel/btrfs/kernel-configs/btrfs-next-config-4.1-rc6")
-      ;; sjihs-btrfs-next-config-file (expand-file-name "~/Dropbox/documents/linux-kernel/btrfs/kernel-configs/btrfs-next-config-4.0-rc5")
-      ;; sjihs-btrfs-next-config-file (expand-file-name "~/google-drive/documents/linux-kernel/btrfs/kernel-configs/integration-config")
-      ;; sjihs-btrfs-next-config-file (expand-file-name "~/google-drive/documents/linux-kernel/btrfs/kernel-configs/btrfs-next-config.3.19-rc5")
-      ;; sjihs-btrfs-next-config-file (expand-file-name "~/google-drive/documents/linux-kernel/btrfs/kernel-configs/btrfs-next-config-3.18-rc6")
-      ;; sjihs-btrfs-next-config-file (expand-file-name "~/google-drive/documents/linux-kernel/btrfs/kernel-configs/btrfs-next-config-2.19-rc5")
-      ;; sjihs-btrfs-next-config-file (expand-file-name "~/google-drive/documents/linux-kernel/btrfs/kernel-configs/btrfs-next-config-3.17-rc5")
-      ;; sjihs-btrfs-next-config-file (expand-file-name "~/google-drive/documents/linux-kernel/btrfs/kernel-configs/btrfs-next-config-3.16")
-      ;; sjihs-btrfs-next-config-file (expand-file-name "~/google-drive/documents/linux-kernel/btrfs/kernel-configs/btrfs-next-config-3.15")
-      ;; sjihs-btrfs-next-config-file (expand-file-name "~/google-drive/documents/linux-kernel/btrfs/kernel-configs/btrfs-next-config-3.14")
-      ;; sjihs-btrfs-next-config-file (expand-file-name "~/google-drive/documents/linux-kernel/btrfs/kernel-configs/btrfs-next-config-3.14-rc4")
-      ;; sjihs-btrfs-next-config-file (expand-file-name "~/google-drive/documents/linux-kernel/btrfs/kernel-configs/btrfs-next-config-3.14-rc4-2")
-      ;;sjihs-btrfs-next-config-file (expand-file-name "~/google-drive/documents/linux-kernel/btrfs/kernel-configs/btrfs-next-config")
       sjihs-btrfs-next-src-dir (expand-file-name "~/code/repos/linux/btrfs-next/"))
 (defun sjihs-kernel-btrfs-next-make (clean-build-dir)
   (interactive "P")
