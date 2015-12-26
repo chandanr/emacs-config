@@ -1,0 +1,31 @@
+;; ;;; EMMS setup
+(require 'emms-setup)
+(require 'emms-mode-line)
+(emms-mode-line 1)
+(require 'emms-playing-time)
+(emms-playing-time nil)
+(emms-standard)
+(emms-default-players)
+;; Show the current track each time EMMS
+;; starts to play a track with "NP : "
+(add-hook 'emms-player-started-hook 'emms-show)
+(setq emms-show-format "NP: %s")
+(setq emms-player-mpg321-command-name "mplayer")
+(setq emms-player-mpg321-parameters (quote ("-quiet" "-really-quiet" "-slave" )))
+(setq emms-player-mplayer-parameters (quote ("-slave" "-quiet" "-really-quiet")))
+(setq emms-player-ogg123-command-name "mplayer")
+(setq emms-player-ogg123-parameters (quote ("-quiet" "-really-quiet" "-slave")))
+;; When asked for emms-play-directory,
+;; always start from this one
+;;(setq emms-source-file-default-directory "~/music/")
+(global-set-key (kbd "C-c e p") 'emms-pause)
+(global-set-key (kbd "C-c e <up>") 'emms-start)
+(global-set-key (kbd "C-c e <down>") 'emms-stop)
+(global-set-key (kbd "C-c e <left>") 'emms-previous)
+(global-set-key (kbd "C-c e <right>") 'emms-next)
+(global-set-key (kbd "C-c e a") 'emms-add-dired)
+(global-set-key (kbd "C-c e <RET>") 'emms-play-dired)
+(global-set-key (kbd "C-c e r") 'emms-toggle-repeat-playlist)
+(global-set-key (kbd "C-c e t") 'emms-toggle-repeat-track)
+(global-set-key (kbd "C-c e t") 'emms-playlist-clear)
+(global-set-key [f5] 'emms)
