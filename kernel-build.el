@@ -1,12 +1,26 @@
+;; TODO: Detect if the kernel is to be copied to a guest or onto
+;; the current machine.
+
+(setq sjihs-kernel-conf-variables
+      '(sjihs-btrfs-next-src-dir
+	sjihs-btrfs-next-build-dir
+	sjihs-btrfs-next-config-file
+	sjihs-vmlinux-relative-path))
+
+(dolist (sjihs-var
+	 sjihs-kernel-conf-variables)
+  (when (not (boundp sjihs-var))
+    (error "%s: %s variable not set" load-file-name (symbol-name sjihs-var))))
+
 (defun sjihs-kernel-make-oldconfig (src-dir build-dir config-file)
   (interactive "DSource directory:\nGBuild directory:\nfConfig file:")
   (let* ((old-dir default-directory)
 	 (abs-path (expand-file-name build-dir)))
     (copy-file config-file "/tmp/.config" t)
     (when (file-exists-p abs-path)
-      (delete-directory abs-path t)
-      (make-directory abs-path)
-      (copy-file "/tmp/.config" abs-path))
+      (delete-directory abs-path t))
+    (make-directory abs-path)
+    (copy-file "/tmp/.config" abs-path)
     (cd src-dir)
     (compile (format "make O=%s oldconfig" abs-path))
     (cd old-dir)))
@@ -23,7 +37,7 @@
 
 (defun sjihs-kernel-copy-bzimage-to-guest (build-dir)
   (interactive "DBuild directory:")
-  (let ((vmlinux-file (concat build-dir "/" "arch/x86_64/boot/bzImage")))
+  (let ((vmlinux-file (concat build-dir "/" sjihs-vmlinux-relative-path)))
     (if (file-exists-p vmlinux-file)
 	(progn
 	  (compile
@@ -45,10 +59,6 @@
     (cd old-dir)))
 (global-set-key (kbd "C-c k g") 'sjihs-kernel-gen-gtags)
 
-
-(setq sjihs-btrfs-next-build-dir (expand-file-name "~/junk/build/btrfs-next/")
-      sjihs-btrfs-next-config-file (expand-file-name "~/Dropbox/documents/linux-kernel/btrfs/kernel-configs/btrfs-next-config-4.1-rc6")
-      sjihs-btrfs-next-src-dir (expand-file-name "~/code/repos/linux/btrfs-next/"))
 (defun sjihs-kernel-btrfs-next-make (clean-build-dir)
   (interactive "P")
   (let ((do-oldconfig nil)
@@ -81,29 +91,3 @@
   (interactive)
   (sjihs-kernel-copy-bzimage-to-guest (expand-file-name "~/junk/build/btrfs-next")))
 (global-set-key (kbd "C-c k b c") 'sjihs-kernel-btrfs-copy-bzimage-to-guest)
-
-(setq sjihs-btrfs-progs-unstable-dir
-      (expand-file-name "~/code/repos/"))
-(defun sjihs-kernel-btrfs-progs-copy-and-make ()
-  (interactive)
-  (let* ((old-dir default-directory))
-    (cd sjihs-btrfs-progs-unstable-dir)
-    (compile (format "%s; %s; %s; %s; %s; %s"
-		     "ssh -p 2222 root@localhost -C \"rm -rf /root/btrfs-progs.tar.bz2\""
-		     "ssh -p 2222 root@localhost -C \"rm -rf /root/btrfs-progs\""
-		     "tar cjf btrfs-progs.tar.bz2 btrfs-progs --exclude-vcs"
-		     "scp -P 2222 btrfs-progs.tar.bz2 root@localhost:/root"
-		     "ssh -p 2222 root@localhost -C \"tar xvf btrfs-progs.tar.bz2\""
-		     "ssh -p 2222 root@localhost -C \"cd btrfs-progs; make clean; make\""))
-    (cd old-dir)))
-  
-(defun sjihs-kernel-btrfs-progs-make (clean-build-dir)
-  (interactive "P")
-  (let ((old-dir default-directory)
-	(compile-cmd ""))
-    (when (not (null clean-build-dir))
-      (setq compile-cmd "make clean; "))
-    (cd (concat sjihs-btrfs-progs-unstable-dir "/devel"))
-    (compile (format "%smake -j4" compile-cmd))
-    (cd old-dir)))
-(global-set-key (kbd "C-c k b p m") 'sjihs-kernel-btrfs-progs-make)
