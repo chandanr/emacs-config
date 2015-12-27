@@ -1,5 +1,12 @@
-(when (file-exists-p "/usr/share/emacs/site-lisp/gtags.elc")
-  (add-to-list 'load-path "/usr/share/emacs/site-lisp")
+(setq sjihs-gtags-conf-variables
+      '(sjihs-site-lisp sjihs-gtags-path))
+(dolist (sjihs-var
+	 sjihs-gtags-conf-variables)
+  (when (not (boundp sjihs-var))
+    (error "%s: %s variable not set" load-file-name (symbol-name sjihs-var))))
+
+(when (file-exists-p sjihs-gtags-path)
+  (add-to-list 'load-path sjihs-site-lisp)
   (require 'gtags)
   (require 'cc-mode))
 
