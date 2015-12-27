@@ -1,3 +1,11 @@
+(setq sjihs-kernel-conf-variables
+      '(sjihs-browser-program))
+
+(dolist (sjihs-var
+	 sjihs-kernel-conf-variables)
+  (when (not (boundp sjihs-var))
+    (error "%s: %s variable not set" load-file-name (symbol-name sjihs-var))))
+
 (add-hook 'after-save-hook
 	  'executable-make-buffer-file-executable-if-script-p)
 
@@ -24,7 +32,7 @@
       blink-cursor-mode t
       backup-directory-alist '((".*" . "~/.emacs.d/"))
       browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "google-chrome"
+      browse-url-generic-program sjihs-browser-program
       grep-command "grep -RniI "
       find-name-arg "-iname")
 
