@@ -1,4 +1,13 @@
 ;;; Org-mode configuration.
+
+(setq sjihs-org-conf-variables
+      '(sjihs-gtd-org-directory sjihs-gtd-org-agenda-files))
+
+(dolist (sjihs-var
+	 sjihs-org-conf-variables)
+  (when (not (boundp sjihs-var))
+    (error "%s: %s variable not set" load-file-name (symbol-name sjihs-var))))
+
 (require 'org)
 ;(require 'ox-beamer)
 ;(require 'org-install)
@@ -22,8 +31,8 @@
       org-agenda-span 'day
       org-return-follows-link t
       org-log-into-drawer t
-      org-directory "~/google-drive/documents/gtd"
-      org-agenda-files (list "~/google-drive/documents/gtd/gtd.txt")
+      org-directory sjihs-gtd-org-directory
+      org-agenda-files sjihs-gtd-org-agenda-files
       org-export-htmlize-output-type 'css)
 
 (setq org-clock-persist 'history)
