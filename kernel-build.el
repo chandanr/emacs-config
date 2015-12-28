@@ -1,6 +1,3 @@
-;; TODO: Detect if the kernel is to be copied to a guest or onto
-;; the current machine.
-
 (setq sjihs-kernel-conf-variables
       '(sjihs-btrfs-next-src-dir
 	sjihs-btrfs-next-build-dir
