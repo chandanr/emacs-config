@@ -5,7 +5,9 @@
       '(sjihs-btrfs-next-src-dir
 	sjihs-btrfs-next-build-dir
 	sjihs-btrfs-next-config-file
-	sjihs-vmlinux-relative-path))
+	sjihs-vmlinux-relative-path
+	sjihs-guest
+	sjihs-vmlinux-install-location))
 
 (dolist (sjihs-var
 	 sjihs-kernel-conf-variables)
@@ -35,21 +37,34 @@
     (cd old-dir)))
 (global-set-key (kbd "C-c k m") 'sjihs-kernel-make)
 
-(defun sjihs-kernel-copy-bzimage-to-guest (build-dir)
-  (interactive "DBuild directory:")
-  (let ((vmlinux-file (concat build-dir "/" sjihs-vmlinux-relative-path)))
+(defun sjihs-kernel-install-bzimage ()
+  (interactive)
+  (let ((vmlinux-file
+	 (concat sjihs-btrfs-next-build-dir "/" sjihs-vmlinux-relative-path))
+	(sjihs-cmd nil))
     (if (file-exists-p vmlinux-file)
 	(progn
-	  (compile
-	   (format
-	    "scp -P 2222 %s root@localhost:/boot/vmlinuz-linux-mod"
-	    vmlinux-file)))
+	  (if sjihs-guest
+	      (setq sjihs-cmd
+		    (format
+		     "scp -P 2222 %s root@localhost:%s"
+		     vmlinux-file sjihs-vmlinux-install-location))
+	    (setq sjihs-cmd
+		  (format
+		   "cp %s %s"
+		   vmlinux-file sjihs-vmlinux-install-location)))
+	  (compile sjihs-cmd))
       (message "%s does not not exist!" vmlinux-file))))
+(global-set-key (kbd "C-c k b c") 'sjihs-kernel-install-bzimage)
 
-(defun sjihs-kernel-reboot-guest ()
+(defun sjihs-kernel-reboot ()
   (interactive)
-  (compile "ssh -p 2222 root@localhost reboot"))
-(global-set-key (kbd "C-c k r") 'sjihs-kernel-reboot-guest)
+  (let ((sjihs-cmd nil))
+    (if sjihs-guest
+	(setq sjihs-cmd "ssh -p 2222 root@localhost reboot")
+      (setq sjihs-cmd "reboot"))
+    (compile sjihs-cmd)))
+(global-set-key (kbd "C-c k r") 'sjihs-kernel-reboot)
 
 (defun sjihs-kernel-gen-gtags (src-dir)
   (interactive "DSource directory:")
@@ -74,10 +89,10 @@
     (setq compile-cmd
 	  (format (if do-oldconfig
 		      "make -j3 O=%s oldconfig"
-		    "")  sjihs-btrfs-next-build-dir))
+		    "") sjihs-btrfs-next-build-dir))
     (setq compile-cmd
 	  (concat compile-cmd
-	    (format "; make -j3 O=%s bzImage" sjihs-btrfs-next-build-dir)))
+	    (format "; make -j3 O=%s" sjihs-btrfs-next-build-dir)))
     (compile compile-cmd)
     (cd old-dir)))
 (global-set-key (kbd "C-c k b m") 'sjihs-kernel-btrfs-next-make)
@@ -87,7 +102,3 @@
   (sjihs-kernel-gen-gtags sjihs-btrfs-next-src-dir))
 (global-set-key (kbd "C-c k b g") 'sjihs-kernel-btrfs-gen-gtags)
 
-(defun sjihs-kernel-btrfs-copy-bzimage-to-guest ()
-  (interactive)
-  (sjihs-kernel-copy-bzimage-to-guest (expand-file-name "~/junk/build/btrfs-next")))
-(global-set-key (kbd "C-c k b c") 'sjihs-kernel-btrfs-copy-bzimage-to-guest)
