@@ -4,7 +4,8 @@
 	sjihs-btrfs-next-config-file
 	sjihs-vmlinux-relative-path
 	sjihs-guest
-	sjihs-vmlinux-install-location))
+	sjihs-vmlinux-install-location
+	sjihs-build-target))
 
 (dolist (sjihs-var
 	 sjihs-kernel-conf-variables)
@@ -89,7 +90,8 @@
 		    "") sjihs-btrfs-next-build-dir))
     (setq compile-cmd
 	  (concat compile-cmd
-	    (format "; make -j3 O=%s" sjihs-btrfs-next-build-dir)))
+		  (format "; make -j3 O=%s %s"
+			  sjihs-btrfs-next-build-dir sjihs-build-target)))
     (compile compile-cmd)
     (cd old-dir)))
 (global-set-key (kbd "C-c k b m") 'sjihs-kernel-btrfs-next-make)

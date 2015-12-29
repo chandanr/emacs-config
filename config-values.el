@@ -5,6 +5,7 @@
  sjihs-vmlinux-relative-path "arch/x86_64/boot/bzImage"
  sjihs-btrfs-next-config-file (expand-file-name "~/google-drive/documents/linux-kernel/btrfs/kernel-configs/btrfs-next-config-4.2.0-rc5")
  sjihs-vmlinux-install-location "/boot/vmlinux-4.0.0-rc5-11671-gcbab598"
+ sjihs-build-target "bzImage"
 
  ;; Gtags                                                                                                                                                                                                                     
  sjihs-gtags-path "/usr/share/emacs/site-lisp/gtags.elc"
