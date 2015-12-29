@@ -1,3 +1,6 @@
+(setq custom-theme-load-path
+      (cons (expand-file-name "~/.emacs-config/") custom-theme-load-path))
+
 (when (eq window-system 'x)
   (load-theme 'Redhat t))
 

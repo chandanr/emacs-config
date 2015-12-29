@@ -9,7 +9,6 @@
 ;; Always load config-values.el first
 (setq sjihs-config-files
       '(config-values.el
-	Redhat-theme.el
 	utils.el
 	bookmarks.el
 	btrfs-computation-helpers.el
