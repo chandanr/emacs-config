@@ -1,7 +1,4 @@
 (setq
- ;; Site lisp                                                                                                                                                                                                                 
- sjihs-site-lisp "/usr/share/emacs/site-lisp"
-
  ;; kernel build configuration values                                                                                                                                                                                         
  sjihs-btrfs-next-src-dir (expand-file-name "~/code/repos/linux/btrfs-next/")
  sjihs-btrfs-next-build-dir (expand-file-name "~/junk/build/btrfs-next/")

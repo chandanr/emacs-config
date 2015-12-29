@@ -1,12 +1,12 @@
 (setq sjihs-gtags-conf-variables
-      '(sjihs-site-lisp sjihs-gtags-path))
+      '(sjihs-gtags-path))
 (dolist (sjihs-var
 	 sjihs-gtags-conf-variables)
   (when (not (boundp sjihs-var))
     (error "%s: %s variable not set" load-file-name (symbol-name sjihs-var))))
 
 (when (file-exists-p sjihs-gtags-path)
-  (add-to-list 'load-path sjihs-site-lisp)
+  (add-to-list 'load-path (sjihs-file-dirname sjihs-gtags-path))
   (require 'gtags)
   (require 'cc-mode))
 
