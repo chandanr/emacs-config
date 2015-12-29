@@ -1,5 +1,5 @@
 (when (eq window-system 'x)
-  (load-theme 'spacemacs-dark t))
+  (load-theme 'Redhat t))
 
 (set-face-attribute 'default nil :family "Monospace" :height 90)
 
