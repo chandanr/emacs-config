@@ -46,7 +46,8 @@
 	version-control.el
 	webjump.el
 	weechat.el
-	windows.el))
+	windows.el
+	math.el))
 
 (dolist (sjihs-config-file sjihs-config-files)
   (load-file
