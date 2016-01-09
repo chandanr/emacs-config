@@ -12,4 +12,4 @@
          (read-file-name "Enter log name: " (expand-file-name "~/.weechat/logs/")
                          nil nil "irc." nil)))
     (find-file file-name)))
-(global-set-key (kbd "C-c s w") 'sjihs-weechat-log)
+(global-set-key (kbd "C-c w l") 'sjihs-weechat-log)
