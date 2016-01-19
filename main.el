@@ -1,3 +1,4 @@
+(let ((gc-cons-threshold most-positive-fixnum))
 (setq sjihs-emacs-config-dir-prefix
       (expand-file-name "~/.emacs-config/"))
 
@@ -56,3 +57,4 @@
 (custom-set-variables
  '(custom-file (concat sjihs-emacs-config-dir-prefix "emacs-custom.el")))
 (load-file custom-file)
+)
