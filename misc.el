@@ -67,3 +67,6 @@
       (set-buffer-file-coding-system 'dos)
       (save-buffer)
       (kill-buffer unix-buffer))))
+
+;; Enable global highlight mode
+(global-hi-lock-mode 1)
