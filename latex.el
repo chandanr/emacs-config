@@ -12,6 +12,7 @@
 (setq reftex-plug-into-AUCTeX t)
 (setq TeX-PDF-mode t)
 (setq latex-run-command "pdflatex")
+(setq-default TeX-engine 'xetex)
 
 ;; Auctex
 (require 'latex)
