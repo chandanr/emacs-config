@@ -48,7 +48,8 @@
 	webjump
 	weechat
 	windows
-	math))
+	math
+	gdb))
 
 (dolist (sjihs-config-file sjihs-config-files)
   (load
