@@ -20,4 +20,6 @@
 (defun pdfokular ()
   (add-to-list 'TeX-output-view-style
 	       '("^pdf$" "." "okular %o %(outpage)")))
+(setq TeX-view-program-list '(("Okular" "okular %o")))
+(setq TeX-view-program-selection '((output-pdf "Okular")))
 (add-hook 'LaTeX-mode-hook 'pdfokular  t) ; AUCTeX LaTeX mode
