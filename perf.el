@@ -34,7 +34,7 @@
 		  func-name sjihs-btrfs-next-build-dir
 		  sjihs-vmlinux-relative-path))
     (message "%s" perf-cmd-line)
-    (shell-command perf-cmd-line)))
+    (compile perf-cmd-line)))
 (global-set-key (kbd "C-c k p a") 'sjihs-perf-probe-add)
 
 (defun sjihs-perf-probe-delete (probe-name)
@@ -51,7 +51,7 @@
 		    (setq probe (car (split-string probe " ")))
 		    (add-to-list 'probe-points probe))
 		  probe-points))))))
-  (shell-command (format "perf probe -d %s" probe-name)))
+  (compile (format "perf probe -d %s" probe-name)))
 (global-set-key (kbd "C-c k p d") 'sjihs-perf-probe-delete)
 
 (defun sjihs-perf-build-record-cmdline ()
