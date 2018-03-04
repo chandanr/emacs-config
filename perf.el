@@ -25,14 +25,12 @@
   (interactive)
   (let ((func-name (thing-at-point 'symbol))
 	(perf-cmd-line))
-    (when (and func-name
-	       (y-or-n-p (format "Place a probe at %s?" func-name)))
-      (setq perf-cmd-line
-	    (format "perf probe -a %s --vmlinux=%s/%s"
-		    func-name sjihs-btrfs-next-build-dir
-		    sjihs-vmlinux-relative-path))
-      (message "%s" perf-cmd-line)
-      (shell-command perf-cmd-line))))
+    (setq perf-cmd-line
+	  (format "perf probe -a %s --vmlinux=%s/%s"
+		  func-name sjihs-btrfs-next-build-dir
+		  sjihs-vmlinux-relative-path))
+    (message "%s" perf-cmd-line)
+    (shell-command perf-cmd-line)))
 (global-set-key (kbd "C-c k p a") 'sjihs-perf-probe-add)
 
 (defun sjihs-perf-probe-delete (probe-name)
