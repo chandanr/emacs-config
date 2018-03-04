@@ -14,7 +14,6 @@
     "perf probe -L %s --vmlinux=%s/%s | tee"
     function-name sjihs-btrfs-next-build-dir sjihs-vmlinux-relative-path)))
 
-
 (defun sjihs-perf-func-var-map (function-name)
   (interactive "sFunction name: \n")
   (compile
@@ -22,7 +21,7 @@
     "perf probe -V %s --vmlinux=%s/%s | tee"
     function-name sjihs-btrfs-next-build-dir sjihs-vmlinux-relative-path)))
 
-(defun sjihs-perf-probe-thing-at-point ()
+(defun sjihs-perf-probe-add ()
   (interactive)
   (let ((func-name (thing-at-point 'symbol))
 	(perf-cmd-line))
@@ -34,7 +33,7 @@
 		    sjihs-vmlinux-relative-path))
       (message "%s" perf-cmd-line)
       (shell-command perf-cmd-line))))
-(global-set-key (kbd "C-c k p a") 'sjihs-perf-probe-thing-at-point)
+(global-set-key (kbd "C-c k p a") 'sjihs-perf-probe-add)
 
 (defun sjihs-perf-probe-delete (probe-name)
   (interactive
