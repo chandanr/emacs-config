@@ -49,3 +49,29 @@
 		  probe-points))))))
   (shell-command (format "perf probe -d %s" probe-name)))
 (global-set-key (kbd "C-c k p d") 'sjihs-perf-probe-delete)
+
+(defun sjihs-perf-build-record-cmdline ()
+  (interactive)
+  (let ((record-events)
+	(events)
+	(cmd-line)
+	(more-events t))
+    (setq events
+	  (split-string
+	   (shell-command-to-string "perf list tracepoint")
+	   "\n"))
+    (setq events
+	  (mapcar
+	   (lambda (e)
+	     (split-string
+	      (replace-regexp-in-string "^[ \t]+" "" e)
+	      " ")) events))
+    (while more-events
+      (add-to-list 'record-events
+		   (completing-read "Event name: " events))
+      (setq more-events (y-or-n-p "Add more events? ")))
+    (setq cmd-line "perf record ")
+    (dolist (tp record-events)
+      (setq cmd-line (concat cmd-line " -e " tp)))
+    (message "%s" cmd-line)))
+(global-set-key (kbd "C-c k p r") 'sjihs-perf-build-record-cmdline)
