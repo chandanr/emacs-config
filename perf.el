@@ -7,20 +7,22 @@
   (when (not (boundp sjihs-var))
     (error "%s: %s variable not set" load-file-name (symbol-name sjihs-var))))
 
-(defun sjihs-perf-func-line-map (function-name)
-  (interactive "sFunction name: \n")
-  (compile
-   (format
-    "perf probe -L %s --vmlinux=%s/%s | tee"
-    function-name sjihs-btrfs-next-build-dir sjihs-vmlinux-relative-path)))
+(defun sjihs-perf-func-line-map ()
+  (interactive)
+  (let ((func-name (thing-at-point 'symbol)))
+    (compile
+     (format
+      "perf probe -L %s --vmlinux=%s/%s | tee"
+      func-name sjihs-btrfs-next-build-dir sjihs-vmlinux-relative-path))))
 (global-set-key (kbd "C-c k p l") 'sjihs-perf-func-line-map)
 
-(defun sjihs-perf-func-var-map (function-name)
-  (interactive "sFunction name: \n")
-  (compile
-   (format
-    "perf probe -V %s --vmlinux=%s/%s | tee"
-    function-name sjihs-btrfs-next-build-dir sjihs-vmlinux-relative-path)))
+(defun sjihs-perf-func-var-map ()
+  (interactive)
+  (let ((func-name (thing-at-point 'symbol)))
+    (compile
+     (format
+      "perf probe -V %s --vmlinux=%s/%s | tee"
+    func-name sjihs-btrfs-next-build-dir sjihs-vmlinux-relative-path))))
 (global-set-key (kbd "C-c k p v") 'sjihs-perf-func-var-map)
 
 (defun sjihs-perf-probe-add ()
