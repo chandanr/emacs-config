@@ -25,13 +25,17 @@
     func-name sjihs-btrfs-next-build-dir sjihs-vmlinux-relative-path))))
 (global-set-key (kbd "C-c k p v") 'sjihs-perf-func-var-map)
 
-(defun sjihs-perf-probe-add ()
-  (interactive)
+(defun sjihs-perf-probe-add (return-probe)
+  (interactive "P")
   (let ((func-name (thing-at-point 'symbol))
 	(perf-cmd-line))
     (setq perf-cmd-line
-	  (format "perf probe -a %s --vmlinux=%s/%s"
-		  func-name sjihs-btrfs-next-build-dir
+	  (format "perf probe -a %s:%s --vmlinux=%s/%s"
+		  func-name
+		  (if return-probe
+		      "%return"
+		    "")
+		  sjihs-btrfs-next-build-dir
 		  sjihs-vmlinux-relative-path))
     (message "%s" perf-cmd-line)
     (compile perf-cmd-line)))
