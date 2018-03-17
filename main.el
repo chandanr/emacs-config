@@ -4,7 +4,7 @@
 
 (dolist (subdir
 	 (directory-files (expand-file-name "~/.emacs.d/elpa/") t))
-  (when (file-directory-p subdir)
+  (when (and (not (string-suffix-p "." subdir)) (not (string-suffix-p ".." subdir)) (file-directory-p subdir))
     (add-to-list 'load-path subdir)))
 
 ;; Always load config-values.el first
