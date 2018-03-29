@@ -16,8 +16,6 @@
 (defun sjihs-gdb-map-function-offset (function-offset)
   (interactive "sFunction offset: \n")
   (let ((sub-cmd (format "list *(%s)"
-			 sjihs-btrfs-next-build-dir
-			 sjihs-vmlinux-relative-path
 			 function-offset)))
     (sjihs-execute-gdb-cmd sub-cmd)))
 (global-set-key (kbd "C-c k d m") 'sjihs-gdb-map-function-offset)
