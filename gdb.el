@@ -26,3 +26,9 @@
 	 (sub-cmd (format "disassemble /m %s" func-name)))
     (sjihs-execute-gdb-cmd sub-cmd)))
 (global-set-key (kbd "C-c k d d") 'sjihs-gdb-disassemble-function)
+
+(defun sjihs-gdb-print-struct-mem-offset (struct-name sub-cmd)
+  (interactive "sStructure: \nsMember: ")
+  (let ((sub-cmd (format "print &(((struct %s *)0)->%s)"
+			 struct-name sub-cmd)))
+    (sjihs-execute-gdb-cmd sub-cmd)))
