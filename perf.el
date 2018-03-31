@@ -16,13 +16,17 @@
       func-name sjihs-btrfs-next-build-dir sjihs-vmlinux-relative-path))))
 (global-set-key (kbd "C-c k p l") 'sjihs-perf-func-line-map)
 
-(defun sjihs-perf-func-var-map ()
-  (interactive)
+(defun sjihs-perf-func-var-map (line-nr)
+  (interactive "P")
   (let ((func-name (thing-at-point 'symbol)))
     (compile
      (format
-      "perf probe -V %s --vmlinux=%s/%s | tee"
-    func-name sjihs-btrfs-next-build-dir sjihs-vmlinux-relative-path))))
+      "perf probe -V %s%s --vmlinux=%s/%s | tee"
+      func-name
+      (if line-nr
+	  (format ":%s" line-nr)
+	"")
+      sjihs-btrfs-next-build-dir sjihs-vmlinux-relative-path))))
 (global-set-key (kbd "C-c k p v") 'sjihs-perf-func-var-map)
 
 (defun sjihs-perf-probe-add (return-probe)
