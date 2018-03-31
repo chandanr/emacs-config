@@ -32,3 +32,4 @@
   (let ((sub-cmd (format "print &(((struct %s *)0)->%s)"
 			 struct-name sub-cmd)))
     (sjihs-execute-gdb-cmd sub-cmd)))
+(global-set-key (kbd "C-c k d o") 'sjihs-gdb-print-struct-mem-offset)
