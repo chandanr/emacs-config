@@ -49,7 +49,8 @@
 	weechat.el
 	windows.el
 	gdb.el
-	perf.el))
+	perf.el
+	calc.el))
 
 (dolist (sjihs-config-file sjihs-config-files)
   (load
