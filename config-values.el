@@ -8,6 +8,8 @@
  sjihs-build-target "bzImage"
 
  ;; Gtags                                                                                                                                                                                                                     
+ ;; ftrace sysfs entry
+ sjihs-ftrace-sysfs-dir "/sys/kernel/debug/tracing/"
  sjihs-gtags-path "/usr/share/emacs/site-lisp/gtags.elc"
 
  ;; Org mode                                                                                                                                                                                                                  

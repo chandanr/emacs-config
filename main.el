@@ -22,6 +22,7 @@
 	dired.el
 	dot.el
 	;; emms.el
+	ftrace.el
 	generic-programming.el
 	gtags.el
 	helm.el
