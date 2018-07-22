@@ -34,10 +34,10 @@
   (let ((func-name (thing-at-point 'symbol))
 	(perf-cmd-line))
     (setq perf-cmd-line
-	  (format "perf probe -a %s:%s --vmlinux=%s/%s"
+	  (format "perf probe -a '%s:%s' --vmlinux=%s/%s"
 		  func-name
 		  (if return-probe
-		      "%return"
+		      "%return $retval"
 		    "")
 		  sjihs-btrfs-next-build-dir
 		  sjihs-vmlinux-relative-path))
