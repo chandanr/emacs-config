@@ -45,20 +45,29 @@
     (compile perf-cmd-line)))
 (global-set-key (kbd "C-c k p a") 'sjihs-perf-probe-add)
 
+(defun sjihs--perf-probe-list ()
+  (let ((probe-points ()))
+    (dolist (probe (split-string
+		    (shell-command-to-string "perf probe -l")
+		    "\n"))
+      (setq probe (replace-regexp-in-string "^[ \t]+" "" probe))
+      (setq probe (car (split-string probe " ")))
+      (add-to-list 'probe-points probe))
+    probe-points))
+
+(defun sjihs-perf-probe-list ()
+  (interactive)
+  (let ((probe-points (sjihs--perf-probe-list))
+	(probe-list ""))
+    (dolist (probe probe-points)
+      (setq probe-list (concat probe-list probe "\n")))
+    (message "Probe points:\n")
+    (message "%s" probe-list)))
+(global-set-key (kbd "C-c k p L") 'sjihs-perf-probe-list)
+
 (defun sjihs-perf-probe-delete (probe-name)
   (interactive
-   (list
-    (completing-read
-     "Probe to delete: "
-     (funcall (lambda ()
-		(let ((probe-points ()))
-		  (dolist (probe (split-string
-				  (shell-command-to-string "perf probe -l")
-				  "\n"))
-		    (setq probe (replace-regexp-in-string "^[ \t]+" "" probe))
-		    (setq probe (car (split-string probe " ")))
-		    (add-to-list 'probe-points probe))
-		  probe-points))))))
+   (list  (completing-read "Probe to delete: " (sjihs--perf-probe-list))))
   (compile (format "perf probe -d %s" probe-name)))
 (global-set-key (kbd "C-c k p d") 'sjihs-perf-probe-delete)
 
