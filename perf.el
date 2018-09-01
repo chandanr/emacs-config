@@ -1,3 +1,7 @@
+;; This has definition of string-trim
+(require 'subr-x)
+(require 'cl-lib)
+
 (setq sjihs-kernel-conf-variables
       '(sjihs-btrfs-next-build-dir
 	sjihs-vmlinux-relative-path))
@@ -21,7 +25,7 @@
   (let ((func-name (thing-at-point 'symbol)))
     (compile
      (format
-      "perf probe -V %s%s --vmlinux=%s/%s | tee"
+      "perf probe -q -V %s%s --vmlinux=%s/%s | tee"
       func-name
       (if line-nr
 	  (format ":%s" line-nr)
@@ -29,20 +33,214 @@
       sjihs-btrfs-next-build-dir sjihs-vmlinux-relative-path))))
 (global-set-key (kbd "C-c k p v") 'sjihs-perf-func-var-map)
 
-(defun sjihs-perf-probe-add (return-probe)
-  (interactive "P")
-  (let ((func-name (thing-at-point 'symbol))
-	(perf-cmd-line))
+(defvar sjihs-perf-probe-add-mode-map
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map special-mode-map)
+    (define-key map (kbd "a") 'sjihs-perf-probe-add-var)
+    (define-key map (kbd "c") 'sjihs-perf-probe-change-var-status)
+    (define-key map (kbd "r") 'sjihs-perf-probe-rename-var)
+    (define-key map (kbd "t") 'sjihs-perf-probe-set-var-type)
+    (define-key map (kbd "C-c C-c") 'sjihs-perf-probe-add-exec)
+    map)
+  "Keymap for perf-probe-add mode.")
+
+(defun sjihs-perf-probe-add-exec ()
+  (interactive)
+  (goto-char (point-min))
+  (let ((var-list (split-string (buffer-string) "\n"))
+	perf-cmd-line attr-list var-name type-name index element)
+
     (setq perf-cmd-line
-	  (format "perf probe -a '%s:%s' --vmlinux=%s/%s"
-		  func-name
-		  (if return-probe
-		      "%return $retval"
-		    "")
+	  (format "perf probe -a '%s:%d " sjihs-func-name sjihs-func-offset))
+
+    (setq index (1- (length var-list)))
+    (setq element (string-trim (nth index var-list)))
+    (when (string= element "")
+      (setcdr (nthcdr (1- index) var-list) nil))
+
+    (dolist (attr-list var-list)
+      (setq attr-list (string-trim attr-list))
+      (setq attr-list (split-string attr-list "\t"))
+
+      (when (string= (string-trim (nth 0 attr-list)) "E")
+	(setq var-name (string-trim (nth 3 attr-list)))
+	(if (string= var-name "-")
+	    (setq var-name (string-trim (nth 1 attr-list)))
+	  (setq var-name (concat var-name "=" (string-trim (nth 1 attr-list)))))
+
+	(setq type-name (string-trim (nth 4 attr-list)))
+	(if (string= type-name "-")
+	    (setq type-name "")
+	  (setq type-name (concat ":" type-name)))
+
+	(setq perf-cmd-line
+	      (concat perf-cmd-line var-name type-name " "))))
+
+    (setq perf-cmd-line
+	  (concat perf-cmd-line "' --vmlinux="
 		  sjihs-btrfs-next-build-dir
 		  sjihs-vmlinux-relative-path))
-    (message "%s" perf-cmd-line)
+
+    (message "Perf command line: %s" perf-cmd-line)
+    (kill-buffer)
     (compile perf-cmd-line)))
+
+(defun sjihs-perf-probe-add-var ()
+  (interactive)
+  (let ((inhibit-read-only t) var var-name type)
+    (setq var
+	  (read-string "Enter variable name: "))
+    (setq var-name
+	  (read-string "Rename variable: " nil nil "-"))
+    (setq type
+	  (completing-read "Enter type name: " sjihs-perf-data-types nil t))
+    (goto-char (point-max))
+    (insert "E" "\t" var "\t" "-" "\t" var-name "\t" type "\n")))
+
+(defun sjihs-perf-probe-change-var-status ()
+  (interactive)
+  (let (val buffer-line (inhibit-read-only t))
+    (setq buffer-line (buffer-substring (point-at-bol) (point-at-eol)))
+    (setq buffer-line (string-trim buffer-line))
+    (setq buffer-line (split-string buffer-line "\t"))
+    (if (string= (car buffer-line) "D")
+	(setq val "E")
+      (setq val "D"))
+    (setcar buffer-line val)
+    (beginning-of-line)
+    (kill-line)
+    (dolist (entry buffer-line)
+      (when (not (eq entry (car buffer-line)))
+	(insert "\t"))
+      (insert entry))
+    (beginning-of-line)))
+
+(defun sjihs-perf-probe-rename-var ()
+  (interactive)
+  (let (var-name buffer-line (inhibit-read-only t))
+    (setq buffer-line (buffer-substring (point-at-bol) (point-at-eol)))
+    (setq buffer-line (string-trim buffer-line))
+    (setq buffer-line (split-string buffer-line "\t"))
+    (setq var-name (read-string "Enter variable name: "))
+    (setcar (nthcdr 3 buffer-line) var-name)
+    (beginning-of-line)
+    (kill-line)
+    (dolist (entry buffer-line)
+      (when (not (eq entry (car buffer-line)))
+	(insert "\t"))
+      (insert entry))))
+
+(defconst sjihs-perf-data-types
+  '("u8" "u16" "u32" "u64" "s8"
+    "s16" "s32" "s64" "x8" "x16"
+    "x32" "x64" "string"))
+
+(defun sjihs-perf-probe-set-var-type ()
+  (interactive)
+  (let (type-name buffer-line (inhibit-read-only t))
+    (setq buffer-line (buffer-substring (point-at-bol) (point-at-eol)))
+    (setq buffer-line (split-string buffer-line "\t"))
+    (setq type-name
+	  (completing-read "Enter type name: " sjihs-perf-data-types nil t))
+    (setcar (nthcdr 4 buffer-line) type-name)
+    (beginning-of-line)
+    (kill-line)
+    (dolist (entry buffer-line)
+      (when (not (eq entry (car buffer-line)))
+	(insert "\t"))
+      (insert entry))))
+
+(define-derived-mode sjihs-perf-probe-add-mode special-mode "Perf probe add"
+  "Major mode for constructing a \"perf probe -a\" command line.
+\\{sjihs-perf-probe-add-mode-map}"
+
+  t)
+
+(defun sjihs--perf-extract-var-list (name offset)
+  (let ((search-index 0)
+	(intersect-list nil)
+	var-list perf-probe-v var-type var type	len regexp)
+    (setq perf-probe-v
+	  (shell-command-to-string
+	   (format "perf probe -V %s:%s --vmlinux=%s/%s"
+		   name offset sjihs-btrfs-next-build-dir
+		   sjihs-vmlinux-relative-path)))
+    (setq perf-probe-v (string-trim perf-probe-v))
+
+    ;; Perf lists "void *" as "(unknown_type"; Hence the regexp has a '(' to
+    ;; match this case.
+    (setq regexp "\\([ \t]+@.+\n\\)\\(\\([ \t]+[(a-zA-Z0-9_ \t\\*]+[\n]?\\)+\\)")
+
+    (while (setq search-index (string-match regexp perf-probe-v search-index))
+	(setq var-list (match-string 2 perf-probe-v))
+	(setq var-list (string-trim var-list))
+	(setq var-list (split-string var-list "\n"))
+	(setq var-list
+	      (mapcar
+	       (lambda (e)
+		 (setq var-type (split-string e))
+		 (setq var (nth (1- (length var-type)) var-type))
+		 (setq type "")
+		 (dotimes (i (1- (length var-type)))
+		   (setq type (concat type (nth i var-type) " ")))
+		 (cons type var))
+	       var-list))
+
+	(if (= (length intersect-list) 0)
+	    (setq intersect-list var-list)
+	  (setq intersect-list
+	      (cl-intersection intersect-list var-list
+			       :test (lambda (var1 var2)
+				       (if (string= (cdr var1) (cdr var2))
+					   t
+					 nil)))))
+      (setq search-index (1+ search-index)))
+
+    intersect-list))
+
+(defun sjihs-perf-probe-add (&optional probe-type)
+  (interactive "P")
+
+  (let ((func-name (thing-at-point 'symbol))
+	perf-cmd-line func-offset perf-edit-probe-vars)
+
+    ;; return probe
+    (when (equal probe-type '(16))
+      (setq perf-cmd-line
+	    (format "perf probe -a '%s:%s' --vmlinux=%s/%s"
+		    func-name "%return $retval"
+		    sjihs-btrfs-next-build-dir
+		    sjihs-vmlinux-relative-path)))
+
+    (when (not (equal probe-type '(16)))
+      (setq func-offset
+	    (read-number "Enter function offset: " 0)))
+
+    ;; Simple probe with optional function offset specified
+    (when (equal probe-type '(4))
+      (setq perf-cmd-line
+	    (format "perf probe -a '%s:%d' --vmlinux=%s/%s"
+		    func-name func-offset
+		    sjihs-btrfs-next-build-dir
+		    sjihs-vmlinux-relative-path)))
+
+    (when (or (equal probe-type '(4)) (equal probe-type '(16)))
+      (message "%s" perf-cmd-line)
+      (compile perf-cmd-line))
+
+    ;; Probe with variable values to be collected
+    (when (not (or (equal probe-type '(4)) (equal probe-type '(16))))
+      (if (get-buffer "perf-edit-probe-vars")
+	  (kill-buffer "perf-edit-probe-vars"))
+      (setq perf-edit-probe-vars (get-buffer-create "perf-edit-probe-vars"))
+      (let ((func-var-list (sjihs--perf-extract-var-list func-name func-offset)))
+	(switch-to-buffer perf-edit-probe-vars)
+	(erase-buffer)
+	(dolist (func-var func-var-list)
+	  (insert "D" "\t" (cdr func-var) "\t" (car func-var) "\t" "-" "\t" "-" "\n"))
+	(sjihs-perf-probe-add-mode)
+	(setq-local sjihs-func-name func-name)
+	(setq-local sjihs-func-offset func-offset)))))
 (global-set-key (kbd "C-c k p a") 'sjihs-perf-probe-add)
 
 (defun sjihs--perf-probe-list ()
