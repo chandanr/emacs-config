@@ -10,6 +10,7 @@
 (windmove-default-keybindings 'shift)
 
 (global-set-key (kbd "C-c f") 'set-frame-name)
+(global-set-key (kbd "C-x f") 'select-frame-by-name)
 
 (require 'window-numbering)
 ;; highlight the window number in pink color
