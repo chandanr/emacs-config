@@ -20,6 +20,10 @@
     (sjihs-execute-gdb-cmd sub-cmd)))
 (global-set-key (kbd "C-c k d m") 'sjihs-gdb-map-function-offset)
 
+(add-to-list 'compilation-error-regexp-alist-alist
+	     '(gdb-list "0x.*(\\([a-zA-Z0-9_/.\\-]+\\):\\([0-9]+\\))." 1 2))
+(add-to-list 'compilation-error-regexp-alist 'gdb-list)
+
 (defun sjihs-gdb-disassemble-function ()
   (interactive)
   (let* ((func-name (thing-at-point 'symbol))
