@@ -19,5 +19,6 @@
  ;; Guest/Host                                                                                                                                                                                                                
  sjihs-guest t
 
- ;; Misc                                                                                                                                                                                                                      
- sjihs-browser-program "google-chrome")
+ ;; Misc
+ sjihs-browser-program "google-chrome"
+ load-prefer-newer t)
