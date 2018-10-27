@@ -1,6 +1,7 @@
 ;; This has definition of string-trim
 (require 'subr-x)
 (require 'cl-lib)
+(require 'tabulated-list)
 
 (setq sjihs-kernel-conf-variables
       '(sjihs-btrfs-next-build-dir
@@ -44,31 +45,32 @@
     map)
   "Keymap for perf-probe-add mode.")
 
-(defun sjihs-perf-probe-add-exec ()
-  (interactive)
+(defun sjihs-perf-probe-add-exec (&optional specify-event-name)
+  (interactive "P")
   (goto-char (point-min))
-  (let ((var-list (split-string (buffer-string) "\n"))
-	perf-cmd-line attr-list var-name type-name index element)
+  (let ((event-name "")
+	entry perf-cmd-line var-name type-name)
+
+    (when (equal specify-event-name '(4))
+      (setq event-name
+	    (read-string "Enter event name: "))
+      (setq event-name (concat event-name "=")))
 
     (setq perf-cmd-line
-	  (format "perf probe -a '%s:%d " sjihs-func-name sjihs-func-offset))
+	  (format "perf probe -a '%s%s:%d " event-name sjihs-func-name
+		  sjihs-func-offset))
 
-    (setq index (1- (length var-list)))
-    (setq element (string-trim (nth index var-list)))
-    (when (string= element "")
-      (setcdr (nthcdr (1- index) var-list) nil))
+    (while (not (eobp))
+      (setq entry (tabulated-list-get-entry))
+      (forward-line)
 
-    (dolist (attr-list var-list)
-      (setq attr-list (string-trim attr-list))
-      (setq attr-list (split-string attr-list "\t"))
-
-      (when (string= (string-trim (nth 0 attr-list)) "E")
-	(setq var-name (string-trim (nth 3 attr-list)))
+      (when (string= (elt entry 0) "Y")
+	(setq var-name (elt entry 3))
 	(if (string= var-name "-")
-	    (setq var-name (string-trim (nth 1 attr-list)))
-	  (setq var-name (concat var-name "=" (string-trim (nth 1 attr-list)))))
+	    (setq var-name (elt entry 1))
+	  (setq var-name (concat var-name "=" (elt entry 1))))
 
-	(setq type-name (string-trim (nth 4 attr-list)))
+	(setq type-name (elt entry 4))
 	(if (string= type-name "-")
 	    (setq type-name "")
 	  (setq type-name (concat ":" type-name)))
@@ -87,48 +89,34 @@
 
 (defun sjihs-perf-probe-add-var ()
   (interactive)
-  (let ((inhibit-read-only t) var var-name type)
+  (let ((inhibit-read-only t) var var-name type entry-vector)
     (setq var
 	  (read-string "Enter variable name: "))
     (setq var-name
 	  (read-string "Rename variable: " nil nil "-"))
     (setq type
 	  (completing-read "Enter type name: " sjihs-perf-data-types nil t))
-    (goto-char (point-max))
-    (insert "E" "\t" var "\t" "-" "\t" var-name "\t" type "\n")))
+    (setq entry-vector (vector "Y" var "-" var-name type))
+    (add-to-list 'tabulated-list-entries (list nil entry-vector))
+    (tabulated-list-print)))
 
 (defun sjihs-perf-probe-change-var-status ()
   (interactive)
-  (let (val buffer-line (inhibit-read-only t))
-    (setq buffer-line (buffer-substring (point-at-bol) (point-at-eol)))
-    (setq buffer-line (string-trim buffer-line))
-    (setq buffer-line (split-string buffer-line "\t"))
-    (if (string= (car buffer-line) "D")
-	(setq val "E")
-      (setq val "D"))
-    (setcar buffer-line val)
-    (beginning-of-line)
-    (kill-line)
-    (dolist (entry buffer-line)
-      (when (not (eq entry (car buffer-line)))
-	(insert "\t"))
-      (insert entry))
-    (beginning-of-line)))
+  (let (val entry (inhibit-read-only t))
+    (setq entry (tabulated-list-get-entry))
+    (if (string= (elt entry 0) "N")
+	(setq val "Y")
+      (setq val "N"))
+    (tabulated-list-set-col 0 val t)))
 
 (defun sjihs-perf-probe-rename-var ()
   (interactive)
-  (let (var-name buffer-line (inhibit-read-only t))
+  (let (var-name (inhibit-read-only t))
     (setq buffer-line (buffer-substring (point-at-bol) (point-at-eol)))
     (setq buffer-line (string-trim buffer-line))
     (setq buffer-line (split-string buffer-line "\t"))
     (setq var-name (read-string "Enter variable name: "))
-    (setcar (nthcdr 3 buffer-line) var-name)
-    (beginning-of-line)
-    (kill-line)
-    (dolist (entry buffer-line)
-      (when (not (eq entry (car buffer-line)))
-	(insert "\t"))
-      (insert entry))))
+    (tabulated-list-set-col 3 var-name t)))
 
 (defconst sjihs-perf-data-types
   '("u8" "u16" "u32" "u64" "s8"
@@ -137,24 +125,21 @@
 
 (defun sjihs-perf-probe-set-var-type ()
   (interactive)
-  (let (type-name buffer-line (inhibit-read-only t))
-    (setq buffer-line (buffer-substring (point-at-bol) (point-at-eol)))
-    (setq buffer-line (split-string buffer-line "\t"))
+  (let (type-name (inhibit-read-only t))
     (setq type-name
 	  (completing-read "Enter type name: " sjihs-perf-data-types nil t))
-    (setcar (nthcdr 4 buffer-line) type-name)
-    (beginning-of-line)
-    (kill-line)
-    (dolist (entry buffer-line)
-      (when (not (eq entry (car buffer-line)))
-	(insert "\t"))
-      (insert entry))))
+    (tabulated-list-set-col 4 type-name t)))
 
-(define-derived-mode sjihs-perf-probe-add-mode special-mode "Perf probe add"
+(define-derived-mode sjihs-perf-probe-add-mode tabulated-list-mode "Perf probe add"
   "Major mode for constructing a \"perf probe -a\" command line.
 \\{sjihs-perf-probe-add-mode-map}"
-
-  t)
+  (setq tabulated-list-format
+	(vector '("Enabled" 7 nil :pad-left 0)
+		'("Variable" 15 nil :pad-left 0)
+		'("Type" 20 nil :pad-left 0)
+		'("New name" 15 nil :pad-left 0)
+		'("Perf type" 7 nil :pad-left 0)))
+  (tabulated-list-init-header))
 
 (defun sjihs--perf-extract-var-list (name offset)
   (let ((search-index 0)
@@ -202,7 +187,9 @@
   (interactive "P")
 
   (let ((func-name (thing-at-point 'symbol))
-	perf-cmd-line func-offset perf-edit-probe-vars)
+	perf-cmd-line func-offset
+	entry-vector perf-edit-probe-vars
+	event-name)
 
     ;; return probe
     (when (equal probe-type '(16))
@@ -218,9 +205,15 @@
 
     ;; Simple probe with optional function offset specified
     (when (equal probe-type '(4))
+      (setq event-name
+	    (read-string "Enter event name: "))
+      (if (string= event-name "")
+	  (setq event-name "")
+	(setq event-name (concat event-name "=")))
+      
       (setq perf-cmd-line
-	    (format "perf probe -a '%s:%d' --vmlinux=%s/%s"
-		    func-name func-offset
+	    (format "perf probe -a '%s%s:%d' --vmlinux=%s/%s"
+		    event-name func-name func-offset
 		    sjihs-btrfs-next-build-dir
 		    sjihs-vmlinux-relative-path)))
 
@@ -235,10 +228,14 @@
       (setq perf-edit-probe-vars (get-buffer-create "perf-edit-probe-vars"))
       (let ((func-var-list (sjihs--perf-extract-var-list func-name func-offset)))
 	(switch-to-buffer perf-edit-probe-vars)
-	(erase-buffer)
-	(dolist (func-var func-var-list)
-	  (insert "D" "\t" (cdr func-var) "\t" (car func-var) "\t" "-" "\t" "-" "\n"))
 	(sjihs-perf-probe-add-mode)
+	(erase-buffer)
+	(setq tabulated-list-entries nil)
+	(dolist (func-var func-var-list)
+	  (setq entry-vector (vector "N" (cdr func-var) (car func-var) "-" "-"))
+	  (add-to-list 'tabulated-list-entries (list nil entry-vector)))
+
+	(tabulated-list-print)
 	(setq-local sjihs-func-name func-name)
 	(setq-local sjihs-func-offset func-offset)))))
 (global-set-key (kbd "C-c k p a") 'sjihs-perf-probe-add)
