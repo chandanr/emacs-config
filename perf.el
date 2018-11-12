@@ -5,7 +5,8 @@
 
 (setq sjihs-kernel-conf-variables
       '(sjihs-btrfs-next-build-dir
-	sjihs-vmlinux-relative-path))
+	sjihs-vmlinux-relative-path
+	sjihs-perf-log-file))
 
 (dolist (sjihs-var
 	 sjihs-kernel-conf-variables)
@@ -291,3 +292,20 @@
       (setq cmd-line (concat cmd-line " -e " tp)))
     (message "%s" cmd-line)))
 (global-set-key (kbd "C-c k p r") 'sjihs-perf-build-record-cmdline)
+
+(defun sjihs-perf-script (compile-buffer)
+  (interactive "P")
+  (let (cmd-line perf-buffer)
+    (if compile-buffer
+	(progn
+	  (setq cmd-line "perf script | tee")
+	  (compile cmd-line))
+      (setq cmd-line
+	    (format "perf script > %s" sjihs-perf-log-file))
+      (shell-command cmd-line)
+      (setq perf-buffer (file-name-nondirectory sjihs-perf-log-file))
+      (setq perf-buffer (get-buffer perf-buffer))
+      (if perf-buffer
+	  (kill-buffer perf-buffer))
+      (find-file-other-window sjihs-perf-log-file))))
+(global-set-key (kbd "C-c k p s") 'sjihs-perf-script)

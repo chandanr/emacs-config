@@ -7,9 +7,13 @@
  sjihs-vmlinux-install-location "/boot/vmlinux-4.0.0-rc5-11671-gcbab598"
  sjihs-build-target "bzImage"
 
- ;; Gtags                                                                                                                                                                                                                     
  ;; ftrace sysfs entry
  sjihs-ftrace-sysfs-dir "/sys/kernel/debug/tracing/"
+
+ ;; Perf configuration values
+ sjihs-perf-log-file (expand-file-name "/root/junk/perf.log")
+
+ ;; Gtags
  sjihs-gtags-path "/usr/share/emacs/site-lisp/gtags.elc"
 
  ;; Org mode                                                                                                                                                                                                                  
