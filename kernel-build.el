@@ -76,7 +76,9 @@
   (interactive "P")
   (let ((do-oldconfig nil)
 	(old-dir default-directory)
-	(compile-cmd ""))
+	(compile-cmd "")
+	(builder-list ())
+	(builder))
     (when (and clean-build-dir (file-exists-p sjihs-btrfs-next-build-dir))
       (delete-directory sjihs-btrfs-next-build-dir t)
       (make-directory sjihs-btrfs-next-build-dir)
@@ -92,7 +94,12 @@
 	  (concat compile-cmd
 		  (format "; make -j3 O=%s %s"
 			  sjihs-btrfs-next-build-dir sjihs-build-target)))
-    (compile compile-cmd)
+    (dolist (builder '(gcc-include gnu))
+      (add-to-list
+       'builder-list (assoc builder compilation-error-regexp-alist-alist)))
+
+    (let ((compilation-error-regexp-alist-alist builder-list))
+      (compile compile-cmd))
     (cd old-dir)))
 (global-set-key (kbd "C-c k b m") 'sjihs-kernel-btrfs-next-make)
 
