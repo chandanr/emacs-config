@@ -1,11 +1,13 @@
 (setq
- ;; kernel build configuration values                                                                                                                                                                                         
- sjihs-btrfs-next-src-dir (expand-file-name "~/code/repos/linux/btrfs-next/")
- sjihs-btrfs-next-build-dir (expand-file-name "~/junk/build/btrfs-next/")
- sjihs-vmlinux-relative-path "arch/x86_64/boot/bzImage"
- sjihs-btrfs-next-config-file (expand-file-name "~/google-drive/documents/linux-kernel/btrfs/kernel-configs/btrfs-next-config-4.2.0-rc5")
- sjihs-vmlinux-install-location "/boot/vmlinux-4.0.0-rc5-11671-gcbab598"
- sjihs-build-target "bzImage"
+ ;; kernel build configuration values
+ sjihs-btrfs-next-src-dir (expand-file-name "~/repos/linux/")
+ sjihs-btrfs-next-build-dir (expand-file-name "/root/disk-imgs/junk/build/btrfs-next/")
+ sjihs-kernel-image-relative-path "vmlinux"
+ sjihs-vmlinux-relative-path "vmlinux"
+ sjihs-btrfs-next-config-file (expand-file-name "~/kernel-configs/linux-next-20181123-config")
+
+ sjihs-vmlinux-install-location "/boot/vmlinuz-mod"
+ sjihs-build-target "zImage"
 
  ;; ftrace sysfs entry
  sjihs-ftrace-sysfs-dir "/sys/kernel/debug/tracing/"

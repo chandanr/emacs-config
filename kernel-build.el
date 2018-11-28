@@ -2,6 +2,7 @@
       '(sjihs-btrfs-next-src-dir
 	sjihs-btrfs-next-build-dir
 	sjihs-btrfs-next-config-file
+	sjihs-kernel-image-relative-path
 	sjihs-vmlinux-relative-path
 	sjihs-guest
 	sjihs-vmlinux-install-location
@@ -35,10 +36,10 @@
     (cd old-dir)))
 (global-set-key (kbd "C-c k m") 'sjihs-kernel-make)
 
-(defun sjihs-kernel-install-bzimage ()
+(defun sjihs-kernel-install-kernel-image ()
   (interactive)
   (let ((vmlinux-file
-	 (concat sjihs-btrfs-next-build-dir "/" sjihs-vmlinux-relative-path))
+	 (concat sjihs-btrfs-next-build-dir "/" sjihs-kernel-image-relative-path))
 	(sjihs-cmd nil))
     (if (file-exists-p vmlinux-file)
 	(progn
@@ -53,7 +54,7 @@
 		   vmlinux-file sjihs-vmlinux-install-location)))
 	  (compile sjihs-cmd))
       (message "%s does not not exist!" vmlinux-file))))
-(global-set-key (kbd "C-c k b c") 'sjihs-kernel-install-bzimage)
+(global-set-key (kbd "C-c k b c") 'sjihs-kernel-install-kernel-image)
 
 (defun sjihs-kernel-reboot ()
   (interactive)
