@@ -10,6 +10,9 @@
       holiday-oriental-holidays nil
       holiday-other-holidays nil)
 
+(setq calendar-latitude 12.976750
+      calendar-longitude 77.575279)
+
 (setq holiday-other-holidays
       '((holiday-fixed 1 15 "Sankranti")
 	(holiday-fixed 1 26 "Republic day")
