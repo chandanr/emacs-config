@@ -44,4 +44,18 @@
     (shell-command clear-ftrace-settings)
     (switch-to-buffer ftrace-buffer-name)))
 
-(global-set-key (kbd "C-c k f g") 'sjihs-ftrace-function-graph-setup)
+(global-set-key (kbd "C-c k f g x") 'sjihs-ftrace-function-graph-setup)
+
+(defun sjihs-set-function-graph-notrace (kernel-symbol &optional no-append)
+  (interactive "sFunction name: \nP")
+
+  (let ((cmd-line ""))
+    (setq cmd-line
+	  (format "echo %s %s /sys/kernel/debug/tracing/set_graph_notrace"
+		  kernel-symbol
+		  (if no-append
+		      ">"
+		    ">>")))
+    (compile cmd-line)))
+
+(global-set-key (kbd "C-c k f g n") 'sjihs-set-function-graph-notrace)
