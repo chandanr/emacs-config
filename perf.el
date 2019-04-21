@@ -267,30 +267,63 @@
   (compile (format "perf probe -d %s" probe-name)))
 (global-set-key (kbd "C-c k p d") 'sjihs-perf-probe-delete)
 
-(defun sjihs-perf-build-record-cmdline ()
+(defvar sjihs-perf-record-build-mode-map
+  (let ((map (make-sparse-keymap)))
+    (set-keymap-parent map special-mode-map)
+    (define-key map (kbd "c") 'sjihs-perf-record-build-change-probe-status)
+    map)
+  "Keymap for perf-build-cmdline mode.")
+
+(defun sjihs-perf-record-build-change-probe-status ()
   (interactive)
-  (let ((record-events)
-	(events)
-	(cmd-line)
-	(more-events t))
-    (setq events
-	  (split-string
-	   (shell-command-to-string "perf list tracepoint")
-	   "\n"))
-    (setq events
-	  (mapcar
-	   (lambda (e)
-	     (split-string
-	      (replace-regexp-in-string "^[ \t]+" "" e)
-	      " ")) events))
-    (while more-events
-      (add-to-list 'record-events
-		   (completing-read "Event name: " events))
-      (setq more-events (y-or-n-p "Add more events? ")))
-    (setq cmd-line "perf record ")
-    (dolist (tp record-events)
-      (setq cmd-line (concat cmd-line " -e " tp)))
-    (message "%s" cmd-line)))
+  (let (val entry (inhibit-read-only t))
+    (setq entry (tabulated-list-get-entry))
+    (if (string= (elt entry 0) "N")
+	(setq val "Y")
+      (setq val "N"))
+    (tabulated-list-set-col 0 val t)))
+
+(define-derived-mode sjihs-perf-record-build-mode tabulated-list-mode
+  "Perf record"
+  "Major mode for constructing a \"perf record ...\" command line."
+  (setq tabulated-list-format
+	(vector '("Enabled" 7 nil :pad-left 0)
+		'("Probe" 20 nil :pad-right 0)))
+  (tabulated-list-init-header))
+
+(defun sjihs-perf-build-record-cmdline (&optional include-tracepoints)
+  (interactive "P")
+  (let ((probe-list nil)
+	(events nil)
+	(cmd-list nil))
+    (setq cmd-list (list "perf probe -l"))
+    (when include-tracepoints
+      (add-to-list 'cmd-list "perf list tracepoint"))
+    
+    (dolist (cmd cmd-list)
+      (setq events
+	    (split-string
+	     (string-trim (shell-command-to-string cmd))
+	     "\n"))
+      (setq probe-list
+	    (append probe-list
+		    (mapcar
+		     (lambda (e)
+		       (car (split-string
+			     (replace-regexp-in-string "^[ \t]+" "" e)
+			     " "))) events))))
+    (if (get-buffer "perf-edit-record-probe")
+	(kill-buffer "perf-edit-record-probe"))
+    (setq perf-edit-record-probe (get-buffer-create "perf-edit-record-probe"))
+    (switch-to-buffer perf-edit-record-probe)
+    (sjihs-perf-record-build-mode)
+    (erase-buffer)
+    (setq tabulated-list-entries nil)
+    (dolist (probe probe-list)
+      (setq entry (vector "N" probe))
+      (add-to-list 'tabulated-list-entries (list nil entry)))
+
+    (tabulated-list-print)))
 (global-set-key (kbd "C-c k p r") 'sjihs-perf-build-record-cmdline)
 
 (defun sjihs-perf-script (compile-buffer)
