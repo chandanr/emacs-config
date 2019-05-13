@@ -7,7 +7,7 @@
 
 (show-paren-mode t)
 
-(custom-set-variables '(show-paren-style 'mixed t))
+(custom-set-variables '(show-paren-style 'parenthesis t))
 
 (global-set-key
  (kbd "<f1>")
