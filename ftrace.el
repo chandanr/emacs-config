@@ -9,6 +9,7 @@
 (defun sjihs-ftrace-function-graph-setup (kernel-symbol workload)
   (interactive "sFunction name: \nsCommand line: ")
   (let ((clear-ftrace-settings nil)
+	(capture-proc nil)
 	(setup-ftrace nil)
 	(ftrace-buffer-name "*ftrace*"))
 
@@ -23,24 +24,37 @@
     (message "Executing command: %s" clear-ftrace-settings)
     (shell-command clear-ftrace-settings)
 
+    (when (get-buffer ftrace-buffer-name)
+      (kill-buffer ftrace-buffer-name))
+    (setq ftrace-buffer-name
+	  (get-buffer-create ftrace-buffer-name))
+
     (setq setup-ftrace
 	  (format
 	   "echo %s > %s/set_graph_function \
-&& echo function_graph > %s/current_tracer \
-&& echo 1 > %s/tracing_on && %s;"
-	   kernel-symbol sjihs-ftrace-sysfs-dir
-	   sjihs-ftrace-sysfs-dir sjihs-ftrace-sysfs-dir
-	   workload))
+&& echo function_graph > %s/current_tracer;"
+	   kernel-symbol sjihs-ftrace-sysfs-dir sjihs-ftrace-sysfs-dir))
+    (message "Executing command: %s" setup-ftrace)
+    (shell-command setup-ftrace)
+
+    (setq capture-proc
+	  (start-process-shell-command
+	   "capture-ftrace"
+	   ftrace-buffer-name
+	   (format "cat %s/trace_pipe" sjihs-ftrace-sysfs-dir)))
+
+    (setq setup-ftrace
+	  (format
+	   "echo 1 > %s/tracing_on && %s;"
+	   sjihs-ftrace-sysfs-dir workload))
 
     (message "Executing command: %s" setup-ftrace)
     (shell-command setup-ftrace)
 
-    ;; For unknown reasons Emacs reads only the partial
-    ;; contents of the trace file. Hence the below kludge.
-    (shell-command
-     (format "cat %s/trace" sjihs-ftrace-sysfs-dir)
-     (get-buffer-create ftrace-buffer-name))
+    ;; Give "capture-proc" some time to collect ftrace logs.
+    (sleep-for 2)
 
+    (delete-process capture-proc)
     (shell-command clear-ftrace-settings)
     (switch-to-buffer ftrace-buffer-name)))
 
