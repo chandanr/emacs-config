@@ -9,6 +9,15 @@
 (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
 
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+
+(defun sjihs-latex-build-on-save ()
+  (add-hook
+   'after-save-hook
+   (lambda ()
+     (save-window-excursion
+       (TeX-command-menu "LaTeX")))))
+(add-hook 'LaTeX-mode-hook 'sjihs-latex-build-on-save)
+
 (setq reftex-plug-into-AUCTeX t)
 (setq TeX-PDF-mode t)
 (setq latex-run-command "pdflatex")
