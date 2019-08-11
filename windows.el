@@ -12,6 +12,11 @@
 (global-set-key (kbd "C-c f") 'set-frame-name)
 (global-set-key (kbd "C-x f") 'select-frame-by-name)
 
+;; horizontal split.
+;; (setq split-width-threshold nil)
+;; vertical split.
+(setq split-width-threshold 1)
+
 (require 'window-numbering)
 ;; highlight the window number in pink color
 (window-numbering-mode 1)
