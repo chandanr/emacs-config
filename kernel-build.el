@@ -36,11 +36,12 @@
     (cd old-dir)))
 (global-set-key (kbd "C-c k m") 'sjihs-kernel-make)
 
-(defun sjihs-kernel-install-kernel-image ()
-  (interactive)
+(defun sjihs-kernel-install-kernel-image (overwrite)
+  (interactive "P")
   (let ((vmlinux-file
 	 (concat sjihs-btrfs-next-build-dir "/" sjihs-kernel-image-relative-path))
-	(sjihs-cmd nil))
+	(sjihs-cmd nil)
+	vmlinux-targets)
     (if (file-exists-p vmlinux-file)
 	(progn
 	  (if sjihs-guest
@@ -48,6 +49,11 @@
 		    (format
 		     "scp -P 2222 %s root@localhost:%s"
 		     vmlinux-file sjihs-vmlinux-install-location))
+
+	    (when overwrite
+	      (setq vmlinux-targets (directory-files "/boot/" t "vm.+" nil))
+	      (setq sjihs-vmlinux-install-location
+		    (completing-read "Possible targets:" vmlinux-targets)))
 	    (setq sjihs-cmd
 		  (format
 		   "cp %s %s"
