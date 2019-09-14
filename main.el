@@ -29,6 +29,7 @@
 	kernel-build.el
 	latex.el
 	lisp.el
+	lsp.el
 	magit.el
 	mail.el
 	Makefile.el
