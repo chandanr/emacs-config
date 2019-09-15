@@ -12,3 +12,4 @@
 	   (message "Cannot extract revision number from the current line")
 	 (magit-show-commit (car rev-at-line))))))
 
+(global-set-key (kbd "C-c g r") 'helm-git-grep)
