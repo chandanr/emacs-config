@@ -16,3 +16,6 @@
 	   keyword)))
     (browse-url search-url)))
 (global-set-key (kbd "<f6>") 'lookup-python-doc)
+
+(add-hook 'python-mode-hook
+        (lambda () (setq forward-sexp-function nil)))
