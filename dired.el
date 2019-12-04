@@ -8,8 +8,9 @@
       dired-recursive-copies 'always
       dired-recursive-deletes 'top)
 
+(require 'dired)
 ;;; Miscellaneous keybindings
-(global-set-key (kbd "C-c C-f") 'find-name-dired)
+(define-key dired-mode-map (kbd "C-c C-f") 'find-name-dired)
 
 (defun sjihs-open-in-external-app ()
   (interactive)
@@ -28,4 +29,5 @@
 	       file-path "sjihs async processes"
 	       (format "xdg-open \"%s\"" file-path)))
 	    file-list))))
-(global-set-key (kbd "<f12>") 'sjihs-open-in-external-app)
+(define-key dired-mode-map (kbd "<f12>") 'sjihs-open-in-external-app)
+
