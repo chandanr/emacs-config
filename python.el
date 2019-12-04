@@ -19,3 +19,9 @@
 
 (add-hook 'python-mode-hook
         (lambda () (setq forward-sexp-function nil)))
+
+(add-hook 'python-mode-hook
+      (lambda ()
+        (setq indent-tabs-mode t)
+        (setq tab-width 8)
+        (setq python-indent-offset 8)))
