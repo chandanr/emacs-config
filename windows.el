@@ -15,7 +15,7 @@
 ;; horizontal split.
 ;; (setq split-width-threshold nil)
 ;; vertical split.
-(setq split-width-threshold 1)
+;; (setq split-width-threshold 1)
 
 (require 'window-numbering)
 ;; highlight the window number in pink color
