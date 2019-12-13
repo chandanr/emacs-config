@@ -37,3 +37,10 @@
 			 struct-name sub-cmd)))
     (sjihs-execute-gdb-cmd sub-cmd)))
 (global-set-key (kbd "C-c k d o") 'sjihs-gdb-print-struct-mem-offset)
+
+(defun sjihs-gdb-print-size (identifier)
+  (interactive "sIdentifier: \n")
+  (let ((sub-cmd (format "print sizeof(%s)"
+			 identifier)))
+    (sjihs-execute-gdb-cmd sub-cmd)))
+(global-set-key (kbd "C-c k d s") 'sjihs-gdb-print-size)
