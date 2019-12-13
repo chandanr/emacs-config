@@ -13,3 +13,5 @@
 	 (magit-show-commit (car rev-at-line))))))
 
 (global-set-key (kbd "C-c g r") 'helm-git-grep)
+
+(setq magit-revision-insert-related-refs nil)
