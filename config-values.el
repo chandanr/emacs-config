@@ -27,4 +27,5 @@
 
  ;; Misc
  sjihs-browser-program "google-chrome"
+ sjihs-nr-cpus 10
  load-prefer-newer t)

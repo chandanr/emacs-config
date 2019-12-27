@@ -6,7 +6,8 @@
 	sjihs-vmlinux-relative-path
 	sjihs-guest
 	sjihs-vmlinux-install-location
-	sjihs-build-target))
+	sjihs-build-target
+	sjihs-nr-cpus))
 
 (dolist (sjihs-var
 	 sjihs-kernel-conf-variables)
@@ -32,7 +33,7 @@
   (let* ((old-dir default-directory)
 	 (abs-path (expand-file-name build-dir)))
     (cd src-dir)
-    (compile (format "make O=%s -j3" abs-path))
+    (compile (format "make O=%s -j%d" abs-path sjihs-nr-cpus))
     (cd old-dir)))
 (global-set-key (kbd "C-c k m") 'sjihs-kernel-make)
 
@@ -95,12 +96,13 @@
     (cd sjihs-btrfs-next-src-dir)
     (setq compile-cmd
 	  (format (if do-oldconfig
-		      "make -j3 O=%s oldconfig"
-		    "") sjihs-btrfs-next-build-dir))
+		      "make -j%d O=%s oldconfig;"
+		    "") sjihs-nr-cpus sjihs-btrfs-next-build-dir))
     (setq compile-cmd
 	  (concat compile-cmd
-		  (format "; make -j3 O=%s %s"
-			  sjihs-btrfs-next-build-dir sjihs-build-target)))
+		  (format "make -j%d O=%s %s"
+			  sjihs-nr-cpus sjihs-btrfs-next-build-dir
+			  sjihs-build-target)))
     (dolist (builder '(gcc-include gnu))
       (add-to-list
        'builder-list (assoc builder compilation-error-regexp-alist-alist)))
