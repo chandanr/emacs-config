@@ -8,10 +8,12 @@
     (error "%s: %s variable not set" load-file-name (symbol-name sjihs-var))))
 
 (defun sjihs-execute-gdb-cmd (sub-cmd)
+  (interactive "sGDB command: \n")
   (compile
    (format
     "gdb -batch %s/%s -ex '%s'"
     sjihs-btrfs-next-build-dir sjihs-vmlinux-relative-path sub-cmd)))
+(global-set-key (kbd "C-c k d c") 'sjihs-execute-gdb-cmd)
 
 (defun sjihs-gdb-map-function-offset (function-offset)
   (interactive "sFunction offset: \n")
