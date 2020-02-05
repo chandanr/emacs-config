@@ -25,3 +25,5 @@
         (setq indent-tabs-mode t)
         (setq tab-width 8)
         (setq python-indent-offset 8)))
+
+(setq python-shell-interpreter "python3")
