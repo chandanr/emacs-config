@@ -112,8 +112,14 @@
     (cd old-dir)))
 (global-set-key (kbd "C-c k b m") 'sjihs-kernel-btrfs-next-make)
 
-(defun sjihs-kernel-btrfs-gen-gtags ()
-  (interactive)
+(defun sjihs-kernel-btrfs-gen-gtags (delete-tags-files)
+  (interactive "P")
+  (when delete-tags-files
+    (dolist (gfile '("GPATH" "GRTAGS" "GTAGS"))
+      (setq gfile
+	    (format "%s/%s" sjihs-btrfs-next-src-dir gfile))
+      (message "Deleting file: %s" gfile)
+      (delete-file gfile)))
   (sjihs-kernel-gen-gtags sjihs-btrfs-next-src-dir))
 (global-set-key (kbd "C-c k b g") 'sjihs-kernel-btrfs-gen-gtags)
 
