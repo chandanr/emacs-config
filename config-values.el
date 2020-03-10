@@ -25,6 +25,9 @@
  ;; Guest/Host                                                                                                                                                                                                                
  sjihs-guest t
 
+ ;; xfs
+ sjihs-xfsprogs-prebuilt-dir "/opt/"
+ sjihs-xfsprogs-prebuilt-symlink-prefix "xfsprogs-build"
  ;; Misc
  sjihs-browser-program "google-chrome"
  sjihs-nr-cpus 10

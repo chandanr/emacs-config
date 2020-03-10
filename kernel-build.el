@@ -7,7 +7,9 @@
 	sjihs-guest
 	sjihs-vmlinux-install-location
 	sjihs-build-target
-	sjihs-nr-cpus))
+	sjihs-nr-cpus
+	sjihs-xfsprogs-prebuilt-dir
+	sjihs-xfsprogs-prebuilt-symlink-prefix))
 
 (dolist (sjihs-var
 	 sjihs-kernel-conf-variables)
@@ -123,3 +125,18 @@
   (sjihs-kernel-gen-gtags sjihs-btrfs-next-src-dir))
 (global-set-key (kbd "C-c k b g") 'sjihs-kernel-btrfs-gen-gtags)
 
+(defun sjihs-kernel-select-prebuilt-xfsprogs ()
+  (interactive)
+  (let (prebuilt-entries target-entry symlink-name)
+    (setq prebuilt-entries
+	  (directory-files sjihs-xfsprogs-prebuilt-dir t
+			   "xfsprogs-build.+" nil))
+    (setq target-entry
+	  (completing-read "Possible targets:" prebuilt-entries))
+    (setq symlink-name
+	  (format "%s/%s"
+		  sjihs-xfsprogs-prebuilt-dir
+		  sjihs-xfsprogs-prebuilt-symlink-prefix))
+    (delete-file symlink-name)
+    (make-symbolic-link target-entry symlink-name)))
+(global-set-key (kbd "C-c k x s") 'sjihs-kernel-select-prebuilt-xfsprogs)
