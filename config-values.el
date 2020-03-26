@@ -4,7 +4,12 @@
  sjihs-btrfs-next-build-dir (expand-file-name "/root/disk-imgs/junk/build/btrfs-next/")
  sjihs-kernel-image-relative-path "vmlinux"
  sjihs-vmlinux-relative-path "vmlinux"
- sjihs-btrfs-next-config-file (expand-file-name "~/kernel-configs/linux-next-20181123-config")
+ sjihs-kernel-configs-dir (expand-file-name "/root/kernel-configs/")
+ sjihs-kernel-config-symlink-suffix "kernel-config"
+ sjihs-btrfs-next-config-file
+ (expand-file-name (format "%s/%s"
+			   "/root/kernel-configs/"
+			   sjihs-kernel-config-symlink-suffix))
 
  sjihs-vmlinux-install-location "/boot/vmlinuz-mod"
  sjihs-build-target "zImage"

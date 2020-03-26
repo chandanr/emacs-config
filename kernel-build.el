@@ -1,6 +1,8 @@
 (setq sjihs-kernel-conf-variables
       '(sjihs-btrfs-next-src-dir
 	sjihs-btrfs-next-build-dir
+	sjihs-kernel-configs-dir
+	sjihs-kernel-config-symlink-suffix
 	sjihs-btrfs-next-config-file
 	sjihs-kernel-image-relative-path
 	sjihs-vmlinux-relative-path
@@ -140,3 +142,18 @@
     (delete-file symlink-name)
     (make-symbolic-link target-entry symlink-name)))
 (global-set-key (kbd "C-c k x s") 'sjihs-kernel-select-prebuilt-xfsprogs)
+
+(defun sjihs-kernel-select-kernel-config ()
+  (interactive)
+  (let (config-list symlink-name)
+    (setq symlink-name
+	  (format "%s/%s"
+		  sjihs-kernel-configs-dir
+		  sjihs-kernel-config-symlink-suffix))
+    (delete-file symlink-name)
+    (setq config-list
+	  (directory-files sjihs-kernel-configs-dir t))
+    (setq target-entry
+	  (completing-read "Kernel configs:" config-list))
+    (make-symbolic-link target-entry symlink-name)))
+(global-set-key (kbd "C-c k b s") 'sjihs-kernel-select-kernel-config)
