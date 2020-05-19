@@ -23,4 +23,5 @@
  '(font-lock-keyword-face ((t (:foreground "color-147"))))
  '(font-lock-type-face ((t (:foreground "color-48"))))
  '(font-lock-variable-name-face ((t (:foreground "color-220"))))
- '(region ((t (:background "color-23")))))
+ '(region ((t (:background "color-23"))))
+ '(smerge-refined-added ((t (:inherit smerge-refined-change :background "color-30")))))
