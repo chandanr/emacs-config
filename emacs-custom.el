@@ -4,7 +4,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-file (concat sjihs-emacs-config-dir-prefix "emacs-custom.el"))
- )
+ '(gdb-non-stop-setting nil t)
+ '(graphviz-dot-preview-extension "png")
+ '(package-selected-packages
+   (quote
+    (yaml-mode zenburn-theme window-numbering weechat waher-theme sublime-themes spacemacs-theme solarized-theme slack shorten pastels-on-dark-theme ox-epub nzenburn-theme noctilux-theme naquadah-theme mustang-theme monokai-theme magit leuven-theme late-night-theme jujube-theme jabber inkpot-theme htmlize heroku-theme hemisu-theme helm-projectile helm-gtags helm-git-grep gruber-darker-theme graphviz-dot-mode grandshell-theme gnuplot-mode gnuplot espresso-theme emms elpy eglot deep-thought-theme company-shell company-lsp company-c-headers company-auctex color-theme clues-theme calmer-forest-theme atom-one-dark-theme assemblage-theme anti-zenburn-theme ample-theme afternoon-theme abyss-theme)))
+ '(show-paren-style (quote parenthesis)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
