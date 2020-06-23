@@ -24,7 +24,7 @@
 	;; emms.el
 	ftrace.el
 	generic-programming.el
-	gtags.el
+	;; gtags.el
 	helm.el
 	kernel-build.el
 	latex.el

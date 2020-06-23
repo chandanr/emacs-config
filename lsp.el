@@ -10,3 +10,12 @@
 (require 'company-lsp)
 (push 'company-lsp company-backends)
 
+(require 'helm-xref)
+(define-key prog-mode-map (kbd "M-.") 'xref-find-definitions)
+(define-key prog-mode-map (kbd "C-M-.") 'xref-find-apropos)
+(define-key prog-mode-map (kbd "M-,") 'xref-find-references)
+(define-key prog-mode-map (kbd "M-*") 'xref-pop-marker-stack)
+;; (define-key prog-mode-map (kbd "M-.") 'lsp-find-definitions)
+;; (define-key prog-mode-map (kbd "C-M-.") 'xref-find-apropos)
+;; (define-key prog-mode-map (kbd "M-,") 'lsp-find-references)
+
