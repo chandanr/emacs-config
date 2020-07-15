@@ -19,6 +19,7 @@
 
  ;; Perf configuration values
  sjihs-perf-log-file (expand-file-name "/root/junk/perf.log")
+ sjihs-perf-history (expand-file-name "~/.perf-history")
 
  ;; Gtags
  sjihs-gtags-path "/usr/share/emacs/site-lisp/gtags.elc"

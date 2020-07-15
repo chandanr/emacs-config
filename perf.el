@@ -6,7 +6,8 @@
 (setq sjihs-kernel-conf-variables
       '(sjihs-btrfs-next-build-dir
 	sjihs-vmlinux-relative-path
-	sjihs-perf-log-file))
+	sjihs-perf-log-file
+	sjihs-perf-history))
 
 (dolist (sjihs-var
 	 sjihs-kernel-conf-variables)
@@ -86,6 +87,12 @@
 
     (message "Perf command line: %s" perf-cmd-line)
     (kill-buffer)
+
+    (with-temp-file sjihs-perf-history
+      (insert-file-contents sjihs-perf-history)
+      (insert perf-cmd-line)
+      (insert "\n"))
+
     (compile perf-cmd-line)))
 
 (defun sjihs-perf-probe-add-var ()
