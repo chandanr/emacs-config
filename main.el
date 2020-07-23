@@ -27,6 +27,7 @@
 	;; gtags.el
 	helm.el
 	kernel-build.el
+	keyboard-macros.el
 	latex.el
 	lisp.el
 	lsp.el
