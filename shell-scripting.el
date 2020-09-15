@@ -6,3 +6,7 @@
  sh-shell-file "/bin/bash")
 
 (global-set-key (kbd "<f3>") 'eshell)
+
+(add-hook 'sh-mode-hook
+	  (lambda ()
+	    (setq fill-column 80)))
