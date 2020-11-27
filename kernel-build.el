@@ -104,7 +104,7 @@
 		    "") sjihs-nr-cpus sjihs-btrfs-next-build-dir))
     (setq compile-cmd
 	  (concat compile-cmd
-		  (format "make -j%d O=%s %s"
+		  (format "make KCLFAGS=-ggdb3 -j%d O=%s %s"
 			  sjihs-nr-cpus sjihs-btrfs-next-build-dir
 			  sjihs-build-target)))
     (dolist (builder '(gcc-include gnu))
