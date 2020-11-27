@@ -53,7 +53,8 @@
 	windows.el
 	gdb.el
 	perf.el
-	calc.el))
+	calc.el
+	xfs.el))
 
 (dolist (sjihs-config-file sjihs-config-files)
   (load
