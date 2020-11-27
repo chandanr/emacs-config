@@ -5,6 +5,6 @@
 	      (while (not (eobp))
 		(diff-hunk-next)))))
 
-(setq ediff-split-window-function 'split-window-horizontally
+(setq ediff-split-window-function 'split-window-vertically
       ediff-window-setup-function 'ediff-setup-windows-plain)
 
