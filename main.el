@@ -49,7 +49,7 @@
 	tramp.el
 	version-control.el
 	webjump.el
-	weechat.el
+	;; weechat.el
 	windows.el
 	gdb.el
 	perf.el
