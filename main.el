@@ -36,6 +36,7 @@
 	Makefile.el
 	misc.el
 	mode-line.el
+	mu4e.el
 	notes.el
 	org-mode.el
 	package.el
