@@ -7,6 +7,8 @@
   (when (and (not (string-suffix-p "." subdir)) (not (string-suffix-p ".." subdir)) (file-directory-p subdir))
     (add-to-list 'load-path subdir)))
 
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 ;; Always load config-values.el first
 (setq sjihs-config-files
       '(config-values.el
