@@ -41,7 +41,8 @@
    user-mail-address "chandanrlinux@gmail.com"
    user-full-name  "Chandan Babu R"
    mu4e-compose-signature (concat "chandan\n")
-   mu4e-view-auto-mark-as-read nil)
+   mu4e-view-auto-mark-as-read nil
+   mu4e-change-filenames-when-moving t)
 
 ;; sending mail -- replace USERNAME with your gmail username
 ;; also, make sure the gnutls command line utils are installed
