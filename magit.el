@@ -15,3 +15,15 @@
 (global-set-key (kbd "C-c g r") 'helm-git-grep)
 
 (setq magit-revision-insert-related-refs nil)
+
+(defun sjihs-insert-rvb ()
+  (interactive)
+  (let* ((rvb "Reviewed-by: ")
+	 (identity (git-commit-self-ident))
+	 (name (nth 0 identity))
+	 (email (nth 1 identity)))
+
+    (setq rvb (concat rvb  name " "))
+    (setq rvb (concat rvb  "<" email ">" "\n"))
+    (insert rvb)))
+(global-set-key (kbd "C-c g i r") 'sjihs-insert-rvb)
