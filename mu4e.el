@@ -71,4 +71,11 @@
 (add-to-list 'mu4e-view-actions
 	     '("MboxGitApply" . mu4e-action-git-apply-mbox) t)
 
+(setq mu4e-bookmarks
+      (list
+       (make-mu4e-bookmark
+	:name "Unread msgs on linux-xfs"
+	:query "list:linux-xfs.vger.kernel.org and flag:unread"
+	:key ?x)))
+
 ;; mu4e-headers-toggle-full-search
