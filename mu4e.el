@@ -1,4 +1,13 @@
 (require 'mu4e)
+(require 's)
+
+(setq sjihs-mu4e-conf-variables
+      '(sjihs-patch-review-directory))
+
+(dolist (sjihs-var
+	 sjihs-mu4e-conf-variables)
+  (when (not (boundp sjihs-var))
+    (error "%s: %s variable not set" load-file-name (symbol-name sjihs-var))))
 
 ;; use mu4e for e-mail in emacs
 (setq mail-user-agent 'mu4e-user-agent)
@@ -66,6 +75,27 @@
 (setq message-citation-line-function 'message-insert-formatted-citation-line)
 
 (require 'mu4e-actions)
+
+(defun mu4e-save-mail-as-mbox (msg)
+  (let ((path-name (mu4e-message-field msg :path))
+	(subject (mu4e-message-field msg :subject))
+	destdir destfile patch-file)
+    (setq destdir
+	  (read-directory-name "Enter destination directory: "
+			       sjihs-patch-review-directory))
+    (setq subject (s-replace "/" "_" subject))
+    (setq subject (s-replace "[" "" subject))
+    (setq subject (s-replace "]" "" subject))
+    (setq subject (s-replace ":" "" subject))
+    (setq subject (s-replace " " "_" subject))
+    (setq subject (s-downcase subject))
+    (setq destfile (concat destdir "/" subject ".mbox"))
+
+    (copy-file path-name destfile)
+    (message "Saved file as %s" destfile)))
+
+(add-to-list 'mu4e-view-actions
+	     '("Save mail as mbox" . mu4e-save-mail-as-mbox) t)
 (add-to-list 'mu4e-view-actions
 	     '("GitApply" . mu4e-action-git-apply-patch) t)
 (add-to-list 'mu4e-view-actions
