@@ -39,4 +39,5 @@
  sjihs-browser-program "google-chrome"
  sjihs-patch-review-directory "/home/chandan/junk/patch-reviews/"
  sjihs-nr-cpus 10
- load-prefer-newer t)
+ load-prefer-newer t
+ sjihs-backup-directory "/root/junk/emacs-backup-dir/")

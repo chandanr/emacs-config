@@ -2,7 +2,8 @@
       '(sjihs-browser-program))
 
 (dolist (sjihs-var
-	 sjihs-kernel-conf-variables)
+	 sjihs-kernel-conf-variables
+	 sjihs-backup-directory)
   (when (not (boundp sjihs-var))
     (error "%s: %s variable not set" load-file-name (symbol-name sjihs-var))))
 
@@ -33,7 +34,7 @@
       global-font-lock-mode t
       font-lock-maximum-decoration t
       blink-cursor-mode t
-      backup-directory-alist '((".*" . "~/.emacs.d/"))
+      backup-directory-alist `(("." . ,sjihs-backup-directory))
       browse-url-browser-function 'browse-url-generic
       browse-url-generic-program sjihs-browser-program
       grep-command "grep -RniI "
