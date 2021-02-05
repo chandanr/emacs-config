@@ -71,6 +71,14 @@
 ;; don't keep message buffers around
 (setq message-kill-buffer-on-exit t)
 
+;; Header view configuration
+(setq mu4e-headers-date-format "%d/%m/%Y %H:%M:%S")
+(setq mu4e-headers-fields
+      '((:date . 19)
+	(:flags . 6)
+	(:from . 22)
+	(:subject)))
+
 (setq message-citation-line-format "On %d %b %Y at %R, %f wrote:")
 (setq message-citation-line-function 'message-insert-formatted-citation-line)
 
