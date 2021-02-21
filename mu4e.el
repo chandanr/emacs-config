@@ -114,6 +114,10 @@
        (make-mu4e-bookmark
 	:name "Unread msgs on linux-xfs"
 	:query "list:linux-xfs.vger.kernel.org and flag:unread"
-	:key ?x)))
+	:key ?x)
+       (make-mu4e-bookmark
+	:name "Important mails"
+	:query "flag:flagged"
+	:key ?f)))
 
 ;; mu4e-headers-toggle-full-search
