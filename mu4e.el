@@ -68,6 +68,9 @@
       smtpmail-smtp-server "smtp.gmail.com"
       smtpmail-smtp-service 587)
 
+;; Do not include my email address in CC list when replying to a mail
+(setq mu4e-user-mail-address-list (quote ("chandanrlinux@gmail.com")))
+
 ;; don't keep message buffers around
 (setq message-kill-buffer-on-exit t)
 
