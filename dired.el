@@ -1,8 +1,12 @@
 ;;; Dired settings
 ;; (add-hook 'dired-mode-hook '(lambda () (auto-revert-mode t)))
+
+(add-hook 'dired-load-hook
+          (lambda () (load "dired-x")))
+
 (put 'dired-find-alternate-file 'disabled nil)
 (setq dired-isearch-filenames t
-      dired-listing-switches "-lh --group-directories-first"
+      dired-listing-switches "-lah --group-directories-first"
       list-directory-brief-switches "-CFh"
       list-directory-verbose-switches "-lh"
       dired-recursive-copies 'always
@@ -30,4 +34,8 @@
 	       (format "xdg-open \"%s\"" file-path)))
 	    file-list))))
 (define-key dired-mode-map (kbd "<f12>") 'sjihs-open-in-external-app)
+
+(add-hook 'dired-mode-hook '(lambda () (dired-omit-mode 1)))
+(setq dired-omit-files (concat dired-omit-files "\\|^[.]+"))
+(define-key dired-mode-map (kbd "h") 'dired-omit-mode)
 
