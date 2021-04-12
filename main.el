@@ -67,3 +67,8 @@
  '(custom-file (concat sjihs-emacs-config-dir-prefix "emacs-custom.el")))
 (load-file custom-file)
 )
+
+;; Startup mu4e
+(when (file-exists-p (expand-file-name "~/.mu/"))
+    (mu4e)
+    (set-frame-name "mail"))
