@@ -2,9 +2,9 @@
       (cons (expand-file-name "~/.emacs-config/") custom-theme-load-path))
 
 (when (eq window-system 'x)
-  (load-theme 'Redhat t))
+  (load-theme 'tango-dark t))
 
-(set-face-attribute 'default nil :family "Monospace" :height 90)
+(set-face-attribute 'default nil :family "Monospace" :height 180)
 
 (defun sjihs-disable-bold-font ()
   (interactive)
