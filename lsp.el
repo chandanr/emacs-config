@@ -7,9 +7,6 @@
 
 (setq lsp-clients-clangd-args '("-j=4" "-log=error" "--background-index"))
 
-(require 'company-lsp)
-(push 'company-lsp company-backends)
-
 (require 'helm-xref)
 (define-key prog-mode-map (kbd "M-.") 'xref-find-definitions)
 (define-key prog-mode-map (kbd "C-M-.") 'xref-find-apropos)
