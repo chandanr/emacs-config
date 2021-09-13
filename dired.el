@@ -24,7 +24,7 @@
 	 (cond
 	  ((string-equal major-mode "dired-mode") (dired-get-marked-files))
 	  (t (list (buffer-file-name))))))
-    (setq do-it (if (<= (length file-list) 1)
+    (setq do-it (if (<= (length file-list) 5)
 		    t
 		  (y-or-n-p "Open more than 5 files?")))
     (when do-it
