@@ -3,6 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
  '(custom-file (concat sjihs-emacs-config-dir-prefix "emacs-custom.el"))
  '(gdb-non-stop-setting nil t)
  '(graphviz-dot-preview-extension "png")
