@@ -14,14 +14,8 @@
       calendar-longitude 77.575279)
 
 (setq holiday-other-holidays
-      '((holiday-fixed 1 15 "Sankranti")
-	(holiday-fixed 1 26 "Republic day")
-	(holiday-fixed 5 1 "May day")
-	(holiday-fixed 8 15 "Independence day")
-	(holiday-fixed 8 22 "Bakrid")
-	(holiday-fixed 9 13 "Ganesha Chaturthi")
-	(holiday-fixed 10 2 "Gandhi Jayanthi")
-	(holiday-fixed 10 19 "Vijaya Dashami")
-	(holiday-fixed 11 1 "Kannada Rajyotsava")
-	(holiday-fixed 11 6 "Deepavali")
+      '((holiday-fixed 10 15 "Vijayadashami")
+	(holiday-fixed 11 1 "Karnataka Rajyotsava")
+	(holiday-fixed 11 4 "Deepavali")
+	(holiday-fixed 11 5 "Deepavali")
 	(holiday-fixed 12 25 "Christmas")))
