@@ -5,6 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(custom-file (concat sjihs-emacs-config-dir-prefix "emacs-custom.el"))
+ '(display-time-mode t)
  '(gdb-non-stop-setting nil t)
  '(graphviz-dot-preview-extension "png")
  '(package-selected-packages
@@ -29,5 +30,9 @@
  '(font-lock-keyword-face ((t (:foreground "color-147"))))
  '(font-lock-type-face ((t (:foreground "color-48"))))
  '(font-lock-variable-name-face ((t (:foreground "color-220"))))
+ '(lsp-headerline-breadcrumb-path-face ((t (:inherit black))))
+ '(lsp-headerline-breadcrumb-separator-face ((t (:inherit black :height 0.8))))
+ '(lsp-headerline-breadcrumb-symbols-face ((t (:weight extrabold :foreground "brightred"))))
+ '(magit-header-line ((t (:foreground "black"))))
  '(region ((t (:background "color-23"))))
  '(smerge-refined-added ((t (:inherit smerge-refined-change :background "color-30")))))
