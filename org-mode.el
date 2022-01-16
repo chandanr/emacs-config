@@ -34,6 +34,7 @@
       org-directory sjihs-gtd-org-directory
       org-agenda-files sjihs-gtd-org-agenda-files
       org-export-htmlize-output-type 'css)
+      org-clock-idle-time 10)
 
 (setq org-clock-persist 'history)
 (org-clock-persistence-insinuate)
