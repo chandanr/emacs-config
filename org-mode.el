@@ -44,3 +44,21 @@
 	nil ;("NEXTACTION" "PROJECTS" "WAITING_FOR" "DELEGATED")
 	nil
 	"\\(SCHEDULED\\|DEADLINE\\)"))
+
+(setq org-agenda-custom-commands
+      '(("W" "Biweekly review"
+	 agenda ""
+	 ((org-agenda-tag-filter-preset '("+WORK"))
+	  (org-agenda-start-on-weekday nil)
+	  (org-agenda-time-grid nil)
+	  (org-agenda-skip-scheduled-if-done nil)
+	  (org-agenda-include-diary nil)
+	  (org-agenda-log-mode-items '(state))
+	  (org-agenda-files sjihs-gtd-org-agenda-files)
+	  (org-agenda-span 14)
+	  (org-agenda-start-day "-14d")
+	  (org-agenda-archives-mode t)
+	  (org-agenda-show-log nil)
+	  (org-agenda-start-with-log-mode nil)
+	  (org-agenda-overriding-header "Biweekly work review")))))
+
