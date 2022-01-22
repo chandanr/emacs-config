@@ -333,19 +333,17 @@
     (tabulated-list-print)))
 (global-set-key (kbd "C-c k p r") 'sjihs-perf-build-record-cmdline)
 
-(defun sjihs-perf-script (compile-buffer)
+(defun sjihs-perf-script (print-trace)
   (interactive "P")
   (let (cmd-line perf-buffer)
-    (if compile-buffer
-	(progn
-	  (setq cmd-line "perf script | tee")
-	  (compile cmd-line))
-      (setq cmd-line
-	    (format "perf script > %s" sjihs-perf-log-file))
-      (shell-command cmd-line)
-      (setq perf-buffer (file-name-nondirectory sjihs-perf-log-file))
-      (setq perf-buffer (get-buffer perf-buffer))
-      (if perf-buffer
-	  (kill-buffer perf-buffer))
-      (find-file-other-window sjihs-perf-log-file))))
+    (if print-trace
+	(setq cmd-line "perf script")
+      (setq cmd-line "perf script -F comm,tid,cpu,time,event,trace"))
+    (setq cmd-line (format "%s > %s" cmd-line sjihs-perf-log-file))
+    (shell-command cmd-line)
+    (setq perf-buffer (file-name-nondirectory sjihs-perf-log-file))
+    (setq perf-buffer (get-buffer perf-buffer))
+    (if perf-buffer
+	(kill-buffer perf-buffer))
+    (find-file-other-window sjihs-perf-log-file)))
 (global-set-key (kbd "C-c k p s") 'sjihs-perf-script)
