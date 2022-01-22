@@ -33,8 +33,10 @@
       org-log-into-drawer t
       org-directory sjihs-gtd-org-directory
       org-agenda-files sjihs-gtd-org-agenda-files
-      org-export-htmlize-output-type 'css)
-      org-clock-idle-time 10)
+      org-export-htmlize-output-type 'css
+      org-clock-idle-time 10
+      org-duration-format 'h:mm)
+
 
 (setq org-clock-persist 'history)
 (org-clock-persistence-insinuate)
