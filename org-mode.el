@@ -62,5 +62,11 @@
 	  (org-agenda-archives-mode t)
 	  (org-agenda-show-log nil)
 	  (org-agenda-start-with-log-mode nil)
-	  (org-agenda-overriding-header "Biweekly work review")))))
+	  (org-agenda-overriding-header "Biweekly work review")))
+	("w" tags-todo
+	 "+WORK&+TODO={NEXTACTION\\|WAITING_FOR}&+SCHEDULED<=\"<today>\"")
+	("h" tags-todo
+	 "+HOME&+TODO={NEXTACTION\\|WAITING_FOR}&+SCHEDULED<=\"<today>\"")
+	("o" tags-todo
+	 "+OUTSIDE&+TODO={NEXTACTION\\|WAITING_FOR}&+SCHEDULED<=\"<today>\"")))
 
