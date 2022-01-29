@@ -18,6 +18,8 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 
+(define-key org-mode-map (kbd "C-c ,") 'org-insert-structure-template)
+
 ;; Disable subscripting when two words are separated using underscores.
 (setq org-export-with-sub-superscripts nil
       org-hide-leading-stars t
