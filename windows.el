@@ -43,7 +43,7 @@ split of windows in the frame simply by calling this command again."
 	    (set-window-configuration sjihs-window-configuration))))))
 (global-set-key (kbd "C-\\") 'toggle-windows-split)
 
-(defun toggle-current-window-dedication ()
+(defun sjihs-toggle-current-window-dedication ()
   (interactive)
   (let* ((window    (selected-window))
         (dedicated (window-dedicated-p window)))
@@ -51,4 +51,4 @@ split of windows in the frame simply by calling this command again."
    (message "Window %sdedicated to %s"
             (if dedicated "no longer " "")
             (buffer-name))))
-(global-set-key (kbd "<pause>") 'toggle-current-window-dedication)
+(global-set-key (kbd "<pause>") 'sjihs-toggle-current-window-dedication)
