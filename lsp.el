@@ -16,3 +16,5 @@
 ;; (define-key prog-mode-map (kbd "C-M-.") 'xref-find-apropos)
 ;; (define-key prog-mode-map (kbd "M-,") 'lsp-find-references)
 
+(setq lsp-diagnostics-provider :none)
+(setq lsp-enable-snippet nil)
