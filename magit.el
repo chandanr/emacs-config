@@ -27,3 +27,8 @@
     (setq rvb (concat rvb  "<" email ">" "\n"))
     (insert rvb)))
 (global-set-key (kbd "C-c g i r") 'sjihs-insert-rvb)
+
+(defun sjihs-magit-show-commit (commit)
+  (interactive "MCommit id: ")
+  (magit-show-commit commit))
+(global-set-key (kbd "C-c g c") 'sjihs-magit-show-commit)
