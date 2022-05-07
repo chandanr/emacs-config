@@ -125,6 +125,8 @@
 	:query "flag:flagged"
 	:key ?f)))
 
+;; Use sender's email id as keyid to obtain PGP signature key
+(setq mml-secure-openpgp-sign-with-sender t)
 
 (add-hook 'gnus-part-display-hook 'message-view-patch-highlight)
 ;; mu4e-headers-toggle-full-search
