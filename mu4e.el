@@ -84,7 +84,7 @@
 	(:from . 22)
 	(:subject)))
 
-(setq message-citation-line-format "On %d %b %Y at %R, %f wrote:")
+(setq message-citation-line-format "On %a, %b %d, %Y at %r %z, %N wrote:")
 (setq message-citation-line-function 'message-insert-formatted-citation-line)
 
 (require 'mu4e-actions)
