@@ -86,6 +86,7 @@
 
 (setq message-citation-line-format "On %a, %b %d, %Y at %r %z, %N wrote:")
 (setq message-citation-line-function 'message-insert-formatted-citation-line)
+(define-key mu4e-view-mode-map (kbd "#") 'gnus-article-hide-citation)
 
 (require 'mu4e-actions)
 
