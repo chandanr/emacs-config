@@ -32,6 +32,7 @@
  '(magit-diff-added-highlight ((t (:background "color-23" :foreground "grey"))))
  '(magit-header-line ((t (:foreground "black"))))
  '(match ((t (:background "color-232"))))
+ '(region ((t (:extend t :background "color-27"))))
  '(smerge-refined-added ((t (:inherit smerge-refined-change :background "green"))))
  '(smerge-refined-removed ((t (:inherit smerge-refined-change :background "color-167"))))
  '(smerge-upper ((t (:background "#4B004B")))))
