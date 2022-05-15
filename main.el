@@ -24,6 +24,7 @@
 	dired.el
 	dot.el
 	;; emms.el
+	epa.el
 	ftrace.el
 	generic-programming.el
 	;; gtags.el
