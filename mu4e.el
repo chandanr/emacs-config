@@ -130,4 +130,5 @@
 (setq mml-secure-openpgp-sign-with-sender t)
 
 (add-hook 'gnus-part-display-hook 'message-view-patch-highlight)
-;; mu4e-headers-toggle-full-search
+
+;; mu4e-headers-toggle-full-search or 'Q'
