@@ -71,3 +71,5 @@
 
 ;; Enable global highlight mode
 (global-hi-lock-mode 1)
+
+(global-set-key [remap dabbrev-expand] 'hippie-expand)
