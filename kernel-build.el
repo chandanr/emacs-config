@@ -114,7 +114,7 @@
     (let ((compilation-error-regexp-alist-alist builder-list))
       (compile compile-cmd))
     (cd old-dir)))
-(global-set-key (kbd "C-c k b m") 'sjihs-kernel-btrfs-next-make)
+(global-set-key (kbd "C-c k b k") 'sjihs-kernel-btrfs-next-make)
 
 (defun sjihs-kernel-btrfs-gen-gtags (delete-tags-files)
   (interactive "P")
@@ -142,6 +142,15 @@
     (delete-file symlink-name)
     (make-symbolic-link target-entry symlink-name)))
 (global-set-key (kbd "C-c k x s") 'sjihs-kernel-select-prebuilt-xfsprogs)
+
+(defun sjihs-build-xfsprogs (clean-build)
+  (interactive "P")
+  (let ((cmd "xfsprogs-build.sh "))
+    (if clean-build
+	(setq cmd (concat cmd "1"))
+      (setq cmd (concat cmd "0")))
+    (compile cmd)))
+(global-set-key (kbd "C-c k b x") 'sjihs-build-xfsprogs)
 
 (defun sjihs-kernel-select-kernel-config ()
   (interactive)
