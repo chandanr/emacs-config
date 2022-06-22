@@ -4,7 +4,7 @@
 (when (eq window-system 'x)
   (load-theme 'tango-dark t))
 
-(set-face-attribute 'default nil :family "Monospace" :height 180)
+(set-face-attribute 'default nil :family "Source code pro" :height 180 :foreground "grey")
 
 (defun sjihs-disable-bold-font ()
   (interactive)
