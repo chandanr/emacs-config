@@ -59,16 +59,11 @@
 ;; also, make sure the gnutls command line utils are installed
 ;; package 'gnutls-bin' in Debian/Ubuntu
 
-(require 'smtpmail)
-(setq message-send-mail-function 'smtpmail-send-it
-      smtpmail-stream-type 'starttls
-      starttls-use-gnutls t
-      smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-      smtpmail-auth-credentials
-      '(("smtp.gmail.com" 587 "chandanrlinux@gmail.com" nil))
-      smtpmail-default-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-server "smtp.gmail.com"
-      smtpmail-smtp-service 587)
+(setq sendmail-program "/usr/bin/msmtp"
+      send-mail-function 'smtpmail-send-it
+      message-sendmail-f-is-evil t
+      message-sendmail-extra-arguments '("--read-envelope-from")
+      message-send-mail-function 'message-send-mail-with-sendmail)
 
 ;; Do not include my email address in CC list when replying to a mail
 (setq mu4e-user-mail-address-list (quote ("chandanrlinux@gmail.com")))
