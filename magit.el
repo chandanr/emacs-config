@@ -32,3 +32,7 @@
   (interactive "MCommit id: ")
   (magit-show-commit commit))
 (global-set-key (kbd "C-c g c") 'sjihs-magit-show-commit)
+
+;; Displaying linux kernel tags in refs section takes close to 5
+;; minutes. Hence disable it.
+(remove-hook 'magit-refs-sections-hook 'magit-insert-tags)
