@@ -110,16 +110,36 @@
 (add-to-list 'mu4e-view-actions
 	     '("MboxGitApply" . mu4e-action-git-apply-mbox) t)
 
-(setq mu4e-bookmarks
-      (list
-       (make-mu4e-bookmark
-	:name "Unread msgs on linux-xfs"
-	:query "list:linux-xfs.vger.kernel.org and flag:unread"
-	:key ?x)
-       (make-mu4e-bookmark
-	:name "Important mails"
-	:query "flag:flagged"
-	:key ?f)))
+(add-to-list
+ 'mu4e-bookmarks
+ '(
+   :name "Linux-xfs"
+	 :query "maildir:/linux-xfs"
+	 :key ?x))
+(add-to-list
+ 'mu4e-bookmarks
+ '(
+   :name "Brownbags"
+	 :query "to:linux_brownbags_grp@oracle.com"
+	 :key ?b))
+(add-to-list
+ 'mu4e-bookmarks
+ '(
+   :name "Misc"
+	 :query "maildir:/misc"
+	 :key ?m))
+(add-to-list
+ 'mu4e-bookmarks
+ '(
+   :name "Jira"
+   :query "maildir:/jira"
+   :key ?j))
+(add-to-list
+ 'mu4e-bookmarks
+ '(
+   :name "Important mails"
+   :query "flag:flagged"
+   :key ?f))
 
 ;; Use sender's email id as keyid to obtain PGP signature key
 (setq mml-secure-openpgp-sign-with-sender t)
