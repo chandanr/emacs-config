@@ -141,6 +141,9 @@
    :query "flag:flagged"
    :key ?f))
 
+(setq gnus-visible-headers
+      (concat gnus-visible-headers "\\|^List-Id:"))
+
 ;; Use sender's email id as keyid to obtain PGP signature key
 (setq mml-secure-openpgp-sign-with-sender t)
 
