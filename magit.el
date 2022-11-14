@@ -1,4 +1,6 @@
 (require 'magit)
+(require 's)
+
 (global-set-key (kbd "C-c g g") 'magit-status)
 (global-set-key (kbd "C-c g b") 'magit-blame-mode)
 (setq magit-last-seen-setup-instructions "1.4.0")
@@ -32,6 +34,17 @@
   (interactive "MCommit id: ")
   (magit-show-commit commit))
 (global-set-key (kbd "C-c g c") 'sjihs-magit-show-commit)
+
+(defun sjihs-magit-show-short-commit (commit)
+  (interactive "MCommit id: ")
+  (let (short-commit)
+    (setq short-commit
+	  (s-trim
+	   (shell-command-to-string
+	    (concat "git rev-parse --short " commit))))
+    (message "%s" short-commit)
+    (kill-new short-commit)))
+(global-set-key (kbd "C-c g s") 'sjihs-magit-show-short-commit)
 
 ;; Displaying linux kernel tags in refs section takes close to 5
 ;; minutes. Hence disable it.
