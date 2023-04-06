@@ -46,7 +46,7 @@
 (add-hook 'c-mode-common-hook
 	  (lambda ()
 	    (font-lock-add-keywords
-	     nil '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
+	     nil '(("\\<\\(FIXME\\|TODO\\|BUG\\|chandan\\):" 1 font-lock-warning-face t)))))
 
 ;; Show trailing whitespace in a C source file.
 (add-hook 'c-mode-hook
