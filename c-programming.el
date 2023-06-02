@@ -2,7 +2,6 @@
 (define-key c-mode-map (kbd "M-/") 'complete-tag)
 (define-key c-mode-map (kbd "M-a") 'c-beginning-of-defun)
 (define-key c-mode-map (kbd "M-e") 'c-end-of-defun)
-(add-hook 'c-mode-hook 'whitespace-mode)
 
 (defun c-lineup-arglist-tabs-only (ignored)
   "Line up argument lists by tabs, not spaces"
@@ -48,10 +47,13 @@
 	    (font-lock-add-keywords
 	     nil '(("\\<\\(FIXME\\|TODO\\|BUG\\|chandan\\):" 1 font-lock-warning-face t)))))
 
-;; Show trailing whitespace in a C source file.
+;; Show unnecessary whitespace in a C source file.
 (add-hook 'c-mode-hook
 	  (lambda()
-	    (setq show-trailing-whitespace t)))
+	    (setq whitespace-style
+		  '(face trailing space-before-tab
+			 space-after-tab indentation))
+	    (whitespace-mode)))
 
 ;; (setq comment-style 'multi-line)
 (setq comment-style 'extra-line)
