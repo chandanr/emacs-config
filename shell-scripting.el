@@ -1,4 +1,6 @@
 ;;; Shell scripting settings
+(require 'sh-script)
+
 (setq sh-basic-offset 8
       sh-indentation 8)
 (setq
