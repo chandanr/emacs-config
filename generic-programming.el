@@ -1,6 +1,5 @@
 ;;; Highlight lines longer than 80 columns
 (setq whitespace-line-column 80
-      whitespace-style '(trailing lines-tail)
       show-paren-mode t)
 
 (global-set-key (kbd "RET") 'newline-and-indent)
