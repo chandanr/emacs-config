@@ -8,9 +8,19 @@
 	    (eldoc-mode 1)))
 
 (add-hook 'lisp-mode-hook
-	  '(lambda ()
-	     (local-set-key (kbd "RET") 'newline-and-indent)))
+	  (lambda ()
+	    (local-set-key (kbd "RET") 'newline-and-indent)
+	    (setq fill-column 80
+		  whitespace-style
+		  '(face trailing space-before-tab
+			 space-after-tab indentation))
+	    (whitespace-mode)))
 
 (add-hook 'emacs-lisp-mode-hook
-	  '(lambda ()
-	     (local-set-key (kbd "RET") 'newline-and-indent)))
+	  (lambda ()
+	    (local-set-key (kbd "RET") 'newline-and-indent)
+	    (setq fill-column 80
+		  whitespace-style
+		  '(face trailing space-before-tab
+			 space-after-tab indentation))
+	    (whitespace-mode)))
