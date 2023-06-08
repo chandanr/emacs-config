@@ -11,4 +11,9 @@
 
 (add-hook 'sh-mode-hook
 	  (lambda ()
-	    (setq fill-column 80)))
+	    (setq fill-column 80
+		  whitespace-style
+		  '(face trailing space-before-tab
+			 space-after-tab indentation))
+	    (whitespace-mode)))
+
