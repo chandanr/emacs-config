@@ -1,4 +1,7 @@
 ;;; Lisp
+(require 'elisp-mode)
+(require 'lisp-mode)
+
 ; Toggle echo area display of Lisp objects at point.
 (add-hook 'emacs-lisp-mode-hook
 	  (lambda ()
