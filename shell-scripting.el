@@ -7,6 +7,8 @@
  magic-mode-alist (cons '("^##/bin/bash$" . shell-script-mode) magic-mode-alist)
  sh-shell-file "/bin/bash")
 
+(setq sh-test (append sh-test '((bash "[[  ]]" . 5))))
+
 (global-set-key (kbd "<f3>") 'eshell)
 
 (add-hook 'sh-mode-hook
