@@ -58,7 +58,8 @@
 	gdb.el
 	perf.el
 	calc.el
-	xfs.el))
+	xfs.el
+	dir-local-vars.el))
 
 (dolist (sjihs-config-file sjihs-config-files)
   (load

@@ -34,6 +34,7 @@
  ;; xfs
  sjihs-xfsprogs-prebuilt-dir "/opt/"
  sjihs-xfsprogs-prebuilt-symlink-prefix "xfsprogs-build"
+ sjihs-xfstests-dir (expand-file-name "~/repos/xfstests-dev/")
 
  ;; Misc
  sjihs-browser-program "google-chrome"
