@@ -23,8 +23,8 @@
 
 (add-hook 'python-mode-hook
       (lambda ()
-        (setq indent-tabs-mode t)
-        (setq tab-width 8)
-        (setq python-indent-offset 8)))
+        (setq indent-tabs-mode nil)
+        (setq tab-width 4)
+        (setq python-indent-offset 4)))
 
 (setq python-shell-interpreter "python3")
