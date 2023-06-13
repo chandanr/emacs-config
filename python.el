@@ -1,5 +1,6 @@
 ;; Python
 
+(require 'python)
 (add-hook 'python-mode 'whitespace-mode)
 
 (defun lookup-python-doc ()
