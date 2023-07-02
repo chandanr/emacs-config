@@ -23,6 +23,7 @@
 	diff.el
 	dired.el
 	dot.el
+	ediff.el
 	;; emms.el
 	epa.el
 	ftrace.el
