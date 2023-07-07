@@ -100,11 +100,11 @@
     (cd sjihs-btrfs-next-src-dir)
     (setq compile-cmd
 	  (format (if do-oldconfig
-		      "make -j%d O=%s oldconfig;"
+		      "yes '' | make -j%d O=%s oldconfig;"
 		    "") sjihs-nr-cpus sjihs-btrfs-next-build-dir))
     (setq compile-cmd
 	  (concat compile-cmd
-		  (format "make -j%d O=%s %s"
+		  (format "yes '' | make -j%d O=%s %s"
 			  sjihs-nr-cpus sjihs-btrfs-next-build-dir
 			  sjihs-build-target)))
     (dolist (builder '(gcc-include gnu))
