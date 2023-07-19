@@ -38,50 +38,58 @@
 	(setq align nil)))
     align))
 
+(defun sjihs-compute-cond-stmt-indentation (anchor1 anchor2)
+  (let (column1 column2 offset stmt)
+    ;; First condition of if/while statement consists of a function
+    ;; call.
+    ;; We ignore the 2nd c-syntactic element
+    (if (= (length c-syntactic-context) 2)
+	(progn
+	  (setq offset nil)
+	  (when (eq c-syntactic-element (nth 0 c-syntactic-context))
+	    (setq column1 (sjihs-get-pos-column-number anchor1))
+	    (setq offset
+		  (vector (+ column1 (* 2 c-basic-offset))))))
+
+      (setq column1 (sjihs-get-pos-column-number anchor1))
+      (setq column2 (sjihs-get-pos-column-number anchor2))
+      (setq stmt (sjihs-get-nth-line (1- (line-number-at-pos))))
+      (setq stmt (string-trim-right stmt))
+
+      (if (sjihs-align-below-condition-p stmt)
+	  (setq offset
+		(vector (1+ column2)))
+	(setq offset
+	      (vector (+ column1 (* 2 c-basic-offset))))))
+    offset))
+
+(defun sjihs-compute-regular-stmt-indentation (anchor1)
+  (let (column1 offset)
+    (setq column1 (sjihs-get-pos-column-number anchor1))
+
+    (when (% column1 c-basic-offset)
+      (setq column1 (/ column1 c-basic-offset))
+      (setq column1 (* column1 c-basic-offset)))
+
+    (setq offset
+	  (vector (+ column1 (* 2 c-basic-offset))))
+
+    offset))
+
 ;; c-echo-syntactic-information-p
 (defun sjihs-linux-set-arglist-cont-nonempty (ignored)
-  (let (offset
-	stmt
-	column1
-	column2
-	(anchor1 (c-langelem-pos c-syntactic-element))
-	(anchor2 (c-langelem-2nd-pos c-syntactic-element)))
+  (let ((anchor1 (c-langelem-pos c-syntactic-element))
+	(anchor2 (c-langelem-2nd-pos c-syntactic-element))
+	offset stmt)
 
     (setq stmt
 	  (sjihs-get-nth-line (line-number-at-pos anchor1)))
 
     (if (string-match "[\s\t]+\\(if\\|while\\)\s*(.+" stmt)
-	(progn
-	  ;; First condition of if/while statement consists of a function
-	  ;; call.
-	  ;; We ignore the 2nd c-syntactic element
-	  (if (= (length c-syntactic-context) 2)
-	      (progn
-		(setq offset nil)
-		(when (eq c-syntactic-element (nth 0 c-syntactic-context))
-		  (setq column1 (sjihs-get-pos-column-number anchor1))
-		  (setq offset
-			(vector (+ column1 (* 2 c-basic-offset))))))
+	(setq offset (sjihs-compute-cond-stmt-indentation anchor1 anchor2))
 
-	    (setq column1 (sjihs-get-pos-column-number anchor1))
-	    (setq column2 (sjihs-get-pos-column-number anchor2))
-	    (setq stmt (sjihs-get-nth-line (1- (line-number-at-pos))))
-	    (setq stmt (string-trim-right stmt))
+      (setq offset (sjihs-compute-regular-stmt-indentation anchor1)))
 
-	    (if (sjihs-align-below-condition-p stmt)
-		(setq offset
-		      (vector (1+ column2)))
-	      (setq offset
-		    (vector (+ column1 (* 2 c-basic-offset)))))))
-
-      (setq column1 (sjihs-get-pos-column-number anchor1))
-
-      (when (% column1 c-basic-offset)
-	(setq column1 (/ column1 c-basic-offset))
-	(setq column1 (* column1 c-basic-offset)))
-
-      (setq offset
-	    (vector (+ column1 (* 2 c-basic-offset)))))
     offset))
 
 (c-add-style
