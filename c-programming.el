@@ -5,36 +5,6 @@
 (define-key c-mode-map (kbd "M-a") 'c-beginning-of-defun)
 (define-key c-mode-map (kbd "M-e") 'c-end-of-defun)
 
-(defun c-lineup-arglist-tabs-only (ignored)
-  "Line up argument lists by tabs, not spaces"
-  (let* ((anchor (c-langelem-pos c-syntactic-element))
-	 (column (c-langelem-2nd-pos c-syntactic-element))
-	 (offset (- (1+ column) anchor))
-	 (steps (floor offset c-basic-offset)))
-    (* (max steps 1)
-       c-basic-offset)))
-
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            ;; Add kernel style
-            (c-add-style
-             "linux-tabs-only"
-             '("linux" (c-offsets-alist
-                        (arglist-cont-nonempty
-                         c-lineup-gcc-asm-reg
-                         c-lineup-arglist-tabs-only))))
-	    (setq fill-column 80)))
-
-(add-hook 'c-mode-hook
-          (lambda ()
-            ;; (let ((filename (buffer-file-name)))
-              ;; Enable kernel mode for the appropriate files
-              ;; (when (and filename
-              ;;            (string-match (expand-file-name "~/src/linux-trees")
-              ;;                          filename))
-	    (setq indent-tabs-mode t)
-	    (c-set-style "linux-tabs-only")))
-
 (add-hook 'c-mode-common-hook
          '(lambda ()
             (c-toggle-hungry-state)))
@@ -49,6 +19,76 @@
 	    (font-lock-add-keywords
 	     nil '(("\\<\\(FIXME\\|TODO\\|BUG\\|chandan\\):" 1 font-lock-warning-face t)))))
 
+(defun sjihs-get-nth-line (line-number)
+  (save-excursion
+    (goto-line line-number)
+    (buffer-substring-no-properties
+     (line-beginning-position)
+     (line-end-position))))
+
+(defun sjihs-get-pos-column-number (pos)
+  (save-excursion
+    (goto-char pos)
+    (current-column)))
+
+(defun sjihs-align-below-condition-p (cond-stmt)
+  (let ((align t))
+    (dolist (operator '("==" "!=" " &" "^" " |"))
+      (when (string-suffix-p operator cond-stmt)
+	(setq align nil)))
+    align))
+
+;; c-echo-syntactic-information-p
+(defun sjihs-linux-set-arglist-cont-nonempty (ignored)
+  (let (offset
+	stmt
+	column1
+	column2
+	(anchor1 (c-langelem-pos c-syntactic-element))
+	(anchor2 (c-langelem-2nd-pos c-syntactic-element)))
+
+    (setq stmt
+	  (sjihs-get-nth-line (line-number-at-pos anchor1)))
+
+    (if (string-match "[\s\t]+\\(if\\|while\\)\s*(.+" stmt)
+	(progn
+	  ;; First condition of if/while statement consists of a function
+	  ;; call.
+	  ;; We ignore the 2nd c-syntactic element
+	  (if (= (length c-syntactic-context) 2)
+	      (progn
+		(setq offset nil)
+		(when (eq c-syntactic-element (nth 0 c-syntactic-context))
+		  (setq column1 (sjihs-get-pos-column-number anchor1))
+		  (setq offset
+			(vector (+ column1 (* 2 c-basic-offset))))))
+
+	    (setq column1 (sjihs-get-pos-column-number anchor1))
+	    (setq column2 (sjihs-get-pos-column-number anchor2))
+	    (setq stmt (sjihs-get-nth-line (1- (line-number-at-pos))))
+	    (setq stmt (string-trim-right stmt))
+
+	    (if (sjihs-align-below-condition-p stmt)
+		(setq offset
+		      (vector (1+ column2)))
+	      (setq offset
+		    (vector (+ column1 (* 2 c-basic-offset)))))))
+
+      (setq column1 (sjihs-get-pos-column-number anchor1))
+
+      (when (% column1 c-basic-offset)
+	(setq column1 (/ column1 c-basic-offset))
+	(setq column1 (* column1 c-basic-offset)))
+
+      (setq offset
+	    (vector (+ column1 (* 2 c-basic-offset)))))
+    offset))
+
+(c-add-style
+ "xfs-linux"
+ '("linux" (c-offsets-alist
+	    (arglist-cont-nonempty . (first sjihs-linux-set-arglist-cont-nonempty)))))
+
 ;; Show unnecessary whitespace in a C source file.
 (add-hook 'c-mode-hook
 	  (lambda()
@@ -57,5 +97,11 @@
 			 space-after-tab indentation))
 	    (whitespace-mode)))
 
-;; (setq comment-style 'multi-line)
-(setq comment-style 'extra-line)
+(add-hook 'c-mode-hook
+	  (lambda ()
+	    (setq c-basic-offset 8
+		  indent-tabs-mode t
+		  fill-column 80
+		  comment-style 'extra-line
+		  c-echo-syntactic-information-p t)
+	    (c-set-style "xfs-linux")))
