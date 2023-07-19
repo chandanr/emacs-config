@@ -6,8 +6,8 @@
 (define-key c-mode-map (kbd "M-e") 'c-end-of-defun)
 
 (add-hook 'c-mode-common-hook
-         '(lambda ()
-            (c-toggle-hungry-state)))
+	  '(lambda ()
+	     (c-toggle-hungry-state)))
 
 (add-hook 'c-mode-common-hook
 	  (lambda()
