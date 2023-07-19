@@ -1,4 +1,6 @@
 (require 'cc-mode)
+(require 'subr-x)
+
 (define-key c-mode-map (kbd "M-/") 'complete-tag)
 (define-key c-mode-map (kbd "M-a") 'c-beginning-of-defun)
 (define-key c-mode-map (kbd "M-e") 'c-end-of-defun)
