@@ -96,14 +96,6 @@
  '("linux" (c-offsets-alist
 	    (arglist-cont-nonempty . (first sjihs-linux-set-arglist-cont-nonempty)))))
 
-;; Show unnecessary whitespace in a C source file.
-(add-hook 'c-mode-hook
-	  (lambda()
-	    (setq whitespace-style
-		  '(face trailing space-before-tab
-			 space-after-tab indentation))
-	    (whitespace-mode)))
-
 (add-hook 'c-mode-hook
 	  (lambda ()
 	    (setq c-basic-offset 8
@@ -112,3 +104,11 @@
 		  comment-style 'extra-line
 		  c-echo-syntactic-information-p t)
 	    (c-set-style "xfs-linux")))
+
+;; Show unnecessary whitespace in a C source file.
+(add-hook 'c-mode-hook
+	  (lambda()
+	    (setq whitespace-style
+		  '(face trailing space-before-tab
+			 space-after-tab indentation))
+	    (whitespace-mode)))
