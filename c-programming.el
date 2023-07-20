@@ -33,9 +33,8 @@
 
 (defun sjihs-align-below-condition-p (cond-stmt)
   (let ((align t))
-    (dolist (operator '("==" "!=" " &" "^" " |"))
-      (when (string-suffix-p operator cond-stmt)
-	(setq align nil)))
+    (when (string-match ".+\\(==\\|!=\\|\s&\\|\s^\\|\s|\\)\s*$" cond-stmt)
+      (setq align nil))
     align))
 
 (defun sjihs-compute-cond-stmt-indentation (anchor1 anchor2)
