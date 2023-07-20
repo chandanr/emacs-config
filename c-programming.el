@@ -102,7 +102,8 @@
 		  indent-tabs-mode t
 		  fill-column 80
 		  comment-style 'extra-line
-		  c-echo-syntactic-information-p t)
+		  ;; c-echo-syntactic-information-p t
+		  )
 	    (c-set-style "xfs-linux")))
 
 ;; Show unnecessary whitespace in a C source file.
