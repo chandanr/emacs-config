@@ -258,7 +258,7 @@
 (use-package magit
   :ensure t
   :requires s
-  :after (:all s helm helm-git-grep)
+  :after (:all s helm)
   :config
   (use-package vc-annotate
     :config
