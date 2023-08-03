@@ -567,6 +567,7 @@
 	   "+HOME&+TODO={NEXTACTION\\|WAITING_FOR}&+SCHEDULED<=\"<today>\"")
 	  ("o" tags-todo
 	   "+OUTSIDE&+TODO={NEXTACTION\\|WAITING_FOR}&+SCHEDULED<=\"<today>\"")))
+  :hook ((org-mode-hook . turn-on-auto-fill))
   :bind
   (("\C-cl" . org-store-link)
    ("\C-cc" . org-capture)
@@ -574,6 +575,8 @@
    ("\C-cb" . org-iswitchb)
    (:map org-mode-map
 	 ("C-c ," . org-insert-structure-template))))
+
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
 
 (use-package python
   :config
