@@ -46,6 +46,10 @@
  load-prefer-newer t
  sjihs-backup-directory "/root/junk/emacs-backup-dir/")
 
+;; Mode independent default faces to use
+(set-face-attribute 'default nil
+		    :foreground "grey")
+
 (require 'package)
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -78,6 +82,8 @@
    helm-buffers-fuzzy-matching t
    helm-recentf-fuzzy-match t)
   (helm-mode 1)
+  (set-face-attribute 'helm-selection nil
+		      :background "color-23")
 
   :bind (("C-c h" . helm-command-prefix)
 	 ("C-c h o" . helm-occur)
@@ -683,6 +689,10 @@
  (lambda ()
    (interactive)
    (manual-entry (current-word))))
+(set-face-attribute 'font-lock-string-face nil
+		    :foreground "LightSalmon")
+(set-face-attribute 'font-lock-comment-face nil
+		    :foreground "color-136")
 
 ;; Mode line configuration
 (setq display-time-day-and-date t
@@ -1528,6 +1538,23 @@
 
   (setq gnus-visible-headers
 	(concat gnus-visible-headers "\\|^List-Id:"))
+
+  (set-face-attribute 'mu4e-related-face nil
+		      :foreground "color-245"
+		      :slant 'normal
+		      :inherit nil)
+  (set-face-attribute 'gnus-header-from nil
+		      :foreground "green")
+  (set-face-attribute 'gnus-header-subject nil
+		      :foreground "brightgreen")
+  (set-face-attribute 'gnus-header-name nil
+		      :foreground "brightcyan")
+
+  (require 'gnus-cite)
+  (set-face-attribute 'gnus-cite-2 nil
+		      :foreground "brightcyan")
+  (set-face-attribute 'gnus-cite-3 nil
+		      :foreground "yellow")
 
   ;; Use sender's email id as keyid to obtain PGP signature key
   (setq mml-secure-openpgp-sign-with-sender t)
