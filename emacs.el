@@ -696,6 +696,8 @@
 		    :foreground "LightSalmon")
 (set-face-attribute 'font-lock-comment-face nil
 		    :foreground "color-136")
+(set-face-attribute 'font-lock-variable-name-face nil
+		    :foreground "yellow")
 
 ;; Mode line configuration
 (setq display-time-day-and-date t
