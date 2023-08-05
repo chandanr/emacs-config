@@ -289,6 +289,8 @@
 		      :foreground "blue")
   (set-face-attribute 'magit-header-line nil
 		      :foreground "black")
+  (set-face-attribute 'magit-branch-remote nil
+		      :foreground "green")
 
   (defun sjihs-insert-rvb ()
     (interactive)
