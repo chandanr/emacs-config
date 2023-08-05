@@ -698,6 +698,10 @@
 		    :foreground "color-136")
 (set-face-attribute 'font-lock-variable-name-face nil
 		    :foreground "yellow")
+(set-face-attribute 'font-lock-function-name-face nil
+		    :foreground "blue")
+(set-face-attribute 'font-lock-type-face nil
+		    :foreground "green")
 
 ;; Mode line configuration
 (setq display-time-day-and-date t
