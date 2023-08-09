@@ -687,6 +687,11 @@
 (use-package bpftrace-mode
   :ensure t)
 
+(use-package kconfig-mode
+  :ensure t
+  :config
+  (modify-syntax-entry ?_ "_" kconfig-mode-syntax-table))
+
 ;; Generic programming
 (global-set-key (kbd "RET") 'newline-and-indent)
 (global-set-key
