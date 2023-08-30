@@ -97,7 +97,7 @@
 	       ("C-z" . helm-select-action))))
 
 (use-package helm-xref
-  :defer nil
+  :demand t
   :after (:all helm helm-mode)
   :bind (:map prog-mode-map
 	      ("M-." . xref-find-definitions)
