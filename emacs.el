@@ -134,7 +134,7 @@
   :ensure t
   :after lsp-mode
   :config
-  :hook ((lsp-mode-hook . lsp-ui-mode)))
+  :hook ((lsp-mode . lsp-ui-mode)))
 
 (use-package lsp-ui-doc
   :after lsp-ui
@@ -233,28 +233,28 @@
 	      (arglist-cont-nonempty . (first sjihs-linux-set-arglist-cont-nonempty)))))
 
 
-  :hook ((c-mode-common-hook . (lambda () (c-toggle-hungry-state)))
-	 (c-mode-common-hook . (lambda () (local-set-key  (kbd "C-c o") 'ff-find-other-file)))
-	 (c-mode-common-hook . (lambda ()
-				 (font-lock-add-keywords
-				  nil
-				  '(("\\<\\(FIXME\\|TODO\\|BUG\\|chandan\\):"
-				     1 font-lock-warning-face t)))))
-	 (c-mode-common-hook . lsp)
-	 (c++-mode-hook . lsp)
-	 (c-mode-hook . (lambda ()
-			  (setq c-basic-offset 8
-				indent-tabs-mode t
-				fill-column 80
-				comment-style 'extra-line
-				;; c-echo-syntactic-information-p t
-				)
-			  (c-set-style "xfs-linux")))
-	 (c-mode-hook . (lambda()
-			  (setq whitespace-style
-				'(face trailing space-before-tab
-				       space-after-tab indentation))
-			  (whitespace-mode))))
+  :hook ((c-mode-common . (lambda () (c-toggle-hungry-state)))
+  	 (c-mode-common . (lambda () (local-set-key  (kbd "C-c o") 'ff-find-other-file)))
+  	 (c-mode-common . (lambda ()
+			    (font-lock-add-keywords
+			     nil
+			     '(("\\<\\(FIXME\\|TODO\\|BUG\\|chandan\\):"
+				1 font-lock-warning-face t)))))
+  	 (c-mode-common . lsp)
+  	 (c++-mode . lsp)
+  	 (c-mode . (lambda ()
+		     (setq c-basic-offset 8
+			   indent-tabs-mode t
+			   fill-column 80
+			   comment-style 'extra-line
+			   ;; c-echo-syntactic-information-p t
+			   )
+		     (c-set-style "xfs-linux")))
+  	 (c-mode . (lambda()
+		     (setq whitespace-style
+			   '(face trailing space-before-tab
+				  space-after-tab indentation))
+		     (whitespace-mode))))
 
   :bind (:map c-mode-map
 	      ("M-/" . complete-tag)
@@ -331,7 +331,7 @@
    ("C-c g s" . sjihs-magit-show-short-commit)))
 
 (use-package make-mode
-  :hook ((makefile-mode-hook . (lambda() (setq show-trailing-whitespace t)))))
+  :hook ((makefile-mode . (lambda() (setq show-trailing-whitespace t)))))
 
 (use-package calc-mode
   :init
@@ -409,11 +409,11 @@
   :config
   (setq ediff-split-window-function 'split-window-vertically
 	ediff-window-setup-function 'ediff-setup-windows-plain)
-  :hook ((diff-mode-hook . (lambda ()
-			     (save-excursion
-			       (goto-char (point-min))
-			       (while (not (eobp))
-				 (diff-hunk-next)))))))
+  :hook ((diff-mode . (lambda ()
+			(save-excursion
+			  (goto-char (point-min))
+			  (while (not (eobp))
+			    (diff-hunk-next)))))))
 
 (use-package dired
   :defer nil
@@ -449,12 +449,12 @@
 	      ("h" . dired-omit-mode)))
 
 (use-package dired-x
-  :defer nil
-  :hook ((dired-load-hook . (lambda () (load "dired-x")))
-	 (dired-mode-hook . (lambda ()
-			      (setq dired-omit-files
-				    (concat dired-omit-files "\\|^[.]+"))
-			      (dired-omit-mode 1)))))
+  :demand t
+  :hook ((dired-load . (lambda () (load "dired-x")))
+	 (dired-mode . (lambda ()
+			 (setq dired-omit-files
+			       (concat dired-omit-files "\\|^[.]+"))
+			 (dired-omit-mode 1)))))
 
 (use-package dot
   :config
@@ -466,7 +466,7 @@
 	 (compile compile-command))) t t))
   (setq graphviz-dot-preview-extension "png")
 
-  :hook ((graphviz-dot-mode-hook . sjihs-compile-on-save)))
+  :hook ((graphviz-dot-mode . sjihs-compile-on-save)))
 
 (use-package ediff
   :config
@@ -496,29 +496,29 @@
 	TeX-PDF-mode t
 	latex-run-command "pdflatex"
 	TeX-engine 'xetex)
-  :hook ((LaTeX-mode-hook . visual-line-mode)
-	 (LaTeX-mode-hook . flyspell-mode)
-	 (LaTeX-mode-hook . LaTeX-math-mode)
-	 (LaTeX-mode-hook . turn-on-reftex)))
+  :hook ((LaTeX-mode . visual-line-mode)
+	 (LaTeX-mode . flyspell-mode)
+	 (LaTeX-mode . LaTeX-math-mode)
+	 (LaTeX-mode . turn-on-reftex)))
 
 (use-package lisp-mode
-  :hook ((lisp-mode-hook . (lambda ()
-			     (local-set-key (kbd "RET") 'newline-and-indent)
-			     (setq fill-column 80
-				   whitespace-style
-				   '(face trailing space-before-tab
-					  space-after-tab indentation))
-			     (whitespace-mode)))))
+  :hook ((lisp-mode . (lambda ()
+			(local-set-key (kbd "RET") 'newline-and-indent)
+			(setq fill-column 80
+			      whitespace-style
+			      '(face trailing space-before-tab
+				     space-after-tab indentation))
+			(whitespace-mode)))))
+
 (use-package elisp-mode
-  :hook ((emacs-lisp-mode-hook . (lambda () (eldoc-mode 1)))
-	 (emacs-lisp-mode-hook . (lambda ()
-				   (local-set-key (kbd "RET") 'newline-and-indent)))
-	 (emacs-lisp-mode-hook .
-			       (lambda ()
-				 (setq fill-column 80
-				       whitespace-style '(face trailing space-before-tab
-							       space-after-tab indentation)
-				       (whitespace-mode))))))
+  :hook ((emacs-lisp-mode . (lambda () (eldoc-mode 1)))
+	 (emacs-lisp-mode . (lambda ()
+			      (local-set-key (kbd "RET") 'newline-and-indent)))
+	 (emacs-lisp-mode . (lambda ()
+	 		      (setq fill-column 80
+	 			    whitespace-style '(face trailing space-before-tab
+	 						    space-after-tab indentation))
+			      (whitespace-mode)))))
 
 (use-package org
   :config
@@ -569,7 +569,7 @@
 	   "+HOME&+TODO={NEXTACTION\\|WAITING_FOR}&+SCHEDULED<=\"<today>\"")
 	  ("o" tags-todo
 	   "+OUTSIDE&+TODO={NEXTACTION\\|WAITING_FOR}&+SCHEDULED<=\"<today>\"")))
-  :hook ((org-mode-hook . turn-on-auto-fill))
+  :hook ((org-mode . turn-on-auto-fill))
   :bind
   (("\C-cl" . org-store-link)
    ("\C-cc" . org-capture)
@@ -577,8 +577,6 @@
    ("\C-cb" . org-iswitchb)
    (:map org-mode-map
 	 ("C-c ," . org-insert-structure-template))))
-
-(add-hook 'org-mode-hook 'turn-on-auto-fill)
 
 (use-package python
   :config
@@ -598,11 +596,11 @@
 
   (setq python-shell-interpreter "python3")
   :hook ((python-mode .whitespace-mode)
-	 (python-mode-hook . (lambda () (setq forward-sexp-function nil)))
-	 (python-mode-hook . (lambda ()
-			       (setq indent-tabs-mode nil
-				     tab-width 4
-				     python-indent-offset 4))))
+	 (python-mode . (lambda () (setq forward-sexp-function nil)))
+	 (python-mode . (lambda ()
+			  (setq indent-tabs-mode nil
+				tab-width 4
+				python-indent-offset 4))))
   :bind (:map python-mode-map
 	      ("<f6>" . lookup-python-doc)))
 
@@ -630,20 +628,20 @@
    '((nil . ((mode . shell-script)))))
   (dir-locals-set-directory-class sjihs-xfstests-dir 'shell-scripts-directory)
   :hook
-  ((sh-mode-hook . (lambda ()
-		     (setq fill-column 80
-			   whitespace-style
-			   '(face trailing space-before-tab
-				   space-after-tab indentation))
-		     (whitespace-mode))))
+  ((sh-mode . (lambda ()
+		(setq fill-column 80
+		      whitespace-style
+		      '(face trailing space-before-tab
+			     space-after-tab indentation))
+		(whitespace-mode))))
   :bind
   (("<f3>" . eshell)))
 
 (use-package text-mode
   :hook
-  ((text-mode-hook . (lambda()
-		       (set-fill-column 78)
-		       (auto-fill-mode t)))))
+  ((text-mode . (lambda()
+		  (set-fill-column 78)
+		  (auto-fill-mode t)))))
 
 
 (use-package tramp
@@ -667,8 +665,8 @@
   :config
   (window-numbering-mode 1)
   :hook
-  ((minibuffer-setup-hook . window-numbering-update)
-   (minibuffer-exit-hook . window-numbering-update)))
+  ((minibuffer-setup . window-numbering-update)
+   (minibuffer-exit . window-numbering-update)))
 
 ; Use control-arrow keys for window resizing
 (global-set-key (kbd "C-<right>") 'enlarge-window-horizontally)
@@ -1417,7 +1415,7 @@
 
 ;; Mu4e and mail related stuff
 (use-package mail-mode
-  :hook ((mail-mode-hook . turn-on-auto-fill)))
+  :hook ((mail-mode . turn-on-auto-fill)))
 
 (when (require 'mu4e nil 'noerror)
   ;; use mu4e for e-mail in emacs
