@@ -1551,7 +1551,7 @@
      :key ?f))
 
   (setq gnus-visible-headers
-	(concat gnus-visible-headers "\\|^List-Id:"))
+	(concat gnus-visible-headers "\\|^List-Id:" "\\|^Message-Id:"))
 
   (set-face-attribute 'mu4e-related-face nil
 		      :foreground "color-245"
