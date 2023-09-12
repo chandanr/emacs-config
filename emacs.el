@@ -1458,7 +1458,7 @@
   (setq
    user-mail-address "chandan.babu@oracle.com"
    user-full-name  "Chandan Babu R"
-   mu4e-compose-signature (concat "chandan\n")
+   mu4e-compose-signature (concat "Chandan\n")
    mu4e-view-auto-mark-as-read nil
    mu4e-change-filenames-when-moving t
    mu4e-update-interval (* 15 60)
