@@ -1557,6 +1557,12 @@
 		      :foreground "color-245"
 		      :slant 'normal
 		      :inherit nil)
+  (set-face-attribute 'mu4e-modeline-face nil
+		      :foreground "black"
+		      :slant 'normal
+		      :weight 'bold
+		      :inherit nil)
+
   (set-face-attribute 'gnus-header-from nil
 		      :foreground "green")
   (set-face-attribute 'gnus-header-subject nil
