@@ -1555,6 +1555,16 @@
   (setq gnus-visible-headers
 	(concat gnus-visible-headers "\\|^List-Id:" "\\|^Message-Id:"))
 
+  (set-face-attribute 'mu4e-compose-separator-face nil
+		      :foreground "blue"
+		      :slant 'normal
+		      :inherit nil)
+
+  (set-face-attribute 'mu4e-system-face nil
+		      :foreground "brightred"
+		      :slant 'normal
+		      :inherit nil)
+
   (set-face-attribute 'mu4e-related-face nil
 		      :foreground "color-245"
 		      :slant 'normal
