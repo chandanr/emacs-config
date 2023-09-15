@@ -1494,6 +1494,36 @@
 		     ;; don't save message to Sent Messages, Outlook takes care of this
 		     (mu4e-sent-messages-behavior . delete)
 		     ))
+	   ,(make-mu4e-context
+	     :name "Kerneldotorg"
+	     :enter-func (lambda () (mu4e-message "Entering kernel context"))
+	     :leave-func (lambda () (mu4e-message "Leaving kernel context"))
+	     :match-func (lambda (msg)
+			   (when msg
+			     (or (mu4e-message-contact-field-matches
+				  msg
+				  :to "chandanbabu@kernel.org")
+				 (mu4e-message-contact-field-matches
+				  msg
+				  :cc "chandanbabu@kernel.org")
+				 (mu4e-message-contact-field-matches
+				  msg
+				  :bcc "chandanbabu@kernel.org"))))
+	     :vars `((user-mail-address . "chandanbabu@kernel.org")
+		     (user-full-name .  "Chandan Babu R")
+		     (mu4e-compose-signature . (concat "Chandan\n"))
+		     ;; Do not include my email address in CC list when replying to a mail
+		     (mu4e-user-mail-address-list . (quote ("chandanbabu@kernel.org")))
+		     (mu4e-drafts-folder . "/kerneldotorg/Drafts")
+		     (mu4e-sent-folder . "/kerneldotorg/Sent")
+		     (mu4e-trash-folder . "/kerneldotorg/Trash")
+		     (mu4e-get-mail-command . "/home/chandan/bin/sync-kerneldotorg-email.sh")
+		     (message-sendmail-extra-arguments . ("-a" "kerneldotorg"))
+		     (mu4e-maildir-shortcuts
+		      .	(("/kerneldotorg/INBOX" . ?i)))
+		     (mu4e-sent-messages-behavior . sent)
+		     )))
+	   )
 
   (require 'mu4e-actions)
 
