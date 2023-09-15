@@ -1467,38 +1467,33 @@
 				 (mu4e-message-contact-field-matches
 				  msg
 				  :bcc "chandan.babu@oracle.com"))))
-	     :vars '((user-mail-address . "chandan.babu@oracle.com")
+	     :vars `((user-mail-address . "chandan.babu@oracle.com")
 		     (user-full-name .  "Chandan Babu R")
 		     (mu4e-compose-signature . (concat "Chandan\n"))
 		     ;; Do not include my email address in CC list when replying to a mail
 		     (mu4e-user-mail-address-list . (quote ("chandan.babu@oracle.com")))
-		     (mu4e-maildir . "/home/chandan/mail/work/")
-		     (mu4e-drafts-folder . "/Drafts")
-		     (mu4e-sent-folder . "/Sent")
-		     (mu4e-trash-folder .  "/Trash")
+		     (mu4e-drafts-folder . "/work/Drafts")
+		     (mu4e-sent-folder . "/work/Sent")
+		     (mu4e-trash-folder . "/work/Trash")
 		     (mu4e-maildir-shortcuts
-		      .	(("/INBOX" . ?i)
-			 ("/Sent" . ?s)
-			 ("/Spam" . ?p)
-			 ("/Trash" . ?t)
-			 ("/linux-mm" . ?m)
-			 ("/linux-btrfs" . ?b)
-			 ("/linux-bcachefs" . ?c)
-			 ("/linux-xfs" . ?x)
-			 ("/linux-block" . ?l)
-			 ("/fstests" . ?f)
-			 ("/linux-next" . ?n)))
-		     (mu4e-get-mail-command . "/home/chandan/bin/sync-email.sh")
+		      .	(("/work/INBOX" . ?i)
+			 ("/work/Sent" . ?s)
+			 ("/work/Spam" . ?p)
+			 ("/work/Trash" . ?t)
+			 ("/work/misc" . ?m)
+			 ("/work/linux-btrfs" . ?b)
+			 ("/work/linux-bcachefs" . ?c)
+			 ("/work/linux-xfs" . ?x)
+			 ("/work/linux-block" . ?l)
+			 ("/work/fstests" . ?f)
+			 ("/work/linux-next" . ?n)
+			 ("/work/linux-fsdevel" . ?d)))
+		     (mu4e-get-mail-command . "/home/chandan/bin/sync-work-email.sh")
 		     ;; Extra arguments to msmtp
 		     (message-sendmail-extra-arguments . ("-a" "work"))
-		     ))))
-
-  ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
-  (setq mu4e-sent-messages-behavior 'delete)
-
-  ;; (See the documentation for `mu4e-sent-messages-behavior' if you have
-  ;; additional non-Gmail addresses and want assign them different
-  ;; behavior.)
+		     ;; don't save message to Sent Messages, Outlook takes care of this
+		     (mu4e-sent-messages-behavior . delete)
+		     ))
 
   (require 'mu4e-actions)
 
