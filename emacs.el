@@ -1413,6 +1413,10 @@
 	 (result (+ src-num mask)))
     (logand result (lognot mask))))
 
+;; GPG stuff
+(setq epa-pinentry-mode 'loopback)
+(pinentry-start)
+
 ;; Mu4e and mail related stuff
 (use-package mail-mode
   :hook ((mail-mode . turn-on-auto-fill)))
