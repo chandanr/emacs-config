@@ -53,7 +53,7 @@
 (require 'package)
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)	 
+(package-initialize)
 
 (when (not (package-installed-p 'use-package))
   (package-refresh-contents)
