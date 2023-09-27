@@ -1491,7 +1491,8 @@
 			 ("/work/linux-block" . ?l)
 			 ("/work/fstests" . ?f)
 			 ("/work/linux-next" . ?n)
-			 ("/work/linux-fsdevel" . ?d)))
+			 ("/work/linux-fsdevel" . ?d)
+			 ("/work/linux-uek-group". ?u)))
 		     (mu4e-get-mail-command . "/home/chandan/bin/sync-work-email.sh")
 		     ;; Extra arguments to msmtp
 		     (message-sendmail-extra-arguments . ("-a" "work"))
