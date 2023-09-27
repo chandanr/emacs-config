@@ -1586,7 +1586,10 @@
 		      :foreground "brightgreen")
   (set-face-attribute 'gnus-header-name nil
 		      :foreground "brightcyan")
-
+  (set-face-attribute 'gnus-signature nil
+		      :foreground "yellow" :italic nil)
+  (set-face-attribute 'gnus-header-content nil
+		      :foreground "green" :italic nil)
   (require 'gnus-cite)
   (set-face-attribute 'gnus-cite-2 nil
 		      :foreground "brightcyan")
