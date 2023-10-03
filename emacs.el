@@ -1414,8 +1414,12 @@
     (logand result (lognot mask))))
 
 ;; GPG stuff
-(setq epa-pinentry-mode 'loopback)
-(pinentry-start)
+(use-package pinentry
+  :defer nil
+  :ensure nil
+  :config
+  (setq epa-pinentry-mode 'loopback)
+  (pinentry-start))
 
 ;; Mu4e and mail related stuff
 (use-package mail-mode
