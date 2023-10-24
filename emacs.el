@@ -594,13 +594,21 @@
 		      keyword)))
       (browse-url search-url)))
 
+  (defun sjihs-python-setup-indent ()
+    (let ((filename (buffer-file-name (current-buffer))))
+      (setq filename (file-name-nondirectory filename))
+      (if (string= filename "perf-script.py")
+	  (setq indent-tabs-mode t
+		tabs-width 8
+		python-indent-offset 8)
+	  (setq indent-tabs-mode nil
+		tabs-width 4
+		python-indent-offset 4))))
+
   (setq python-shell-interpreter "python3")
-  :hook ((python-mode .whitespace-mode)
+  :hook ((python-mode . whitespace-mode)
 	 (python-mode . (lambda () (setq forward-sexp-function nil)))
-	 (python-mode . (lambda ()
-			  (setq indent-tabs-mode nil
-				tab-width 4
-				python-indent-offset 4))))
+	 (python-mode . sjihs-python-setup-indent))
   :bind (:map python-mode-map
 	      ("<f6>" . lookup-python-doc)))
 
