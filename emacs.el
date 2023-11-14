@@ -292,16 +292,34 @@
   (set-face-attribute 'magit-branch-remote nil
 		      :foreground "green")
 
+  (defun sjihs-insert-tag (tag)
+    (let* ((identity (git-commit-self-ident))
+	   (name (nth 0 identity))
+	   (email (nth 1 identity))
+	   (tagname))
+      (cond
+       ((string= tag "acb")
+	(setq tagname "Acked-by: "))
+       ((string= tag "rvb")
+	(setq tagname "Reviewed-by: "))
+       ((string= tag "ttb")
+	(setq tagname "Tested-by: ")))
+
+      (setq tagname (concat tagname  name " "))
+      (setq tagname (concat tagname  "<" email ">" "\n"))
+      (insert tagname)))
+
+  (defun sjihs-insert-acb ()
+    (interactive)
+    (sjihs-insert-tag "acb"))
+
   (defun sjihs-insert-rvb ()
     (interactive)
-    (let* ((rvb "Reviewed-by: ")
-  	   (identity (git-commit-self-ident))
-  	   (name (nth 0 identity))
-  	   (email (nth 1 identity)))
+    (sjihs-insert-tag "rvb"))
 
-      (setq rvb (concat rvb  name " "))
-      (setq rvb (concat rvb  "<" email ">" "\n"))
-      (insert rvb)))
+  (defun sjihs-insert-ttb ()
+    (interactive)
+    (sjihs-insert-tag "ttb"))
 
   (defun sjihs-magit-show-commit (commit)
     (interactive "MCommit id: ")
@@ -326,7 +344,9 @@
   (("C-c g g" . magit-status)
    ("C-c g b" . magit-blame-mode)
    ("C-c g r" . helm-git-grep)
+   ("C-c g i a" . sjihs-insert-acb)
    ("C-c g i r" . sjihs-insert-rvb)
+   ("C-c g i t" . sjihs-insert-ttb)
    ("C-c g c" . sjihs-magit-show-commit)
    ("C-c g s" . sjihs-magit-show-short-commit)))
 
