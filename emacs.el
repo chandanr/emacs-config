@@ -48,7 +48,7 @@
 
 ;; Mode independent default faces to use
 (set-face-attribute 'default nil
-		    :foreground "grey")
+		    :foreground "color-252")
 
 (require 'package)
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
@@ -735,11 +735,22 @@
 		    :foreground "blue")
 (set-face-attribute 'font-lock-type-face nil
 		    :foreground "green")
+(set-face-attribute 'font-lock-constant-face nil
+		    :foreground "cyan")
+(set-face-attribute 'font-lock-variable-name-face nil
+		    :foreground "yellow")
 
 ;; Mode line configuration
 (setq display-time-day-and-date t
       column-number-mode t
       display-time-mode t)
+(set-face-attribute 'mode-line nil
+		    :background "color-252"
+		    :foreground "black")
+(set-face-attribute 'mode-line-inactive nil
+		    :inherit 'mode-line
+		    :background "grey30"
+		    :foreground "color-247")
 
 ;; Linux kernel build
 (defun sjihs-kernel-make-oldconfig (src-dir build-dir config-file)
@@ -1622,10 +1633,15 @@
 		      :foreground "yellow" :italic nil)
   (set-face-attribute 'gnus-header-content nil
 		      :foreground "green" :italic nil)
+  (set-face-attribute 'message-cited-text-2 nil
+		      :foreground "green" :italic nil)
+
   (require 'gnus-cite)
   (set-face-attribute 'gnus-cite-2 nil
 		      :foreground "brightcyan")
   (set-face-attribute 'gnus-cite-3 nil
+		      :foreground "yellow")
+  (set-face-attribute 'gnus-cite-attribution nil
 		      :foreground "yellow")
 
   ;; Use sender's email id as keyid to obtain PGP signature key
@@ -1649,7 +1665,7 @@
 
 ;; Misc stuff
 (set-face-attribute 'region nil
-		    :background "color-27")
+		    :background "color-32")
 
 ;; Bookmarks
 (setq bookmark-default-file "~/.emacs.d/bookmarks"
