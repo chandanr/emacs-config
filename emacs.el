@@ -128,7 +128,7 @@
     (set-face-attribute 'lsp-headerline-breadcrumb-separator-face nil
 			:inherit 'black :height 0.8)
     (set-face-attribute 'lsp-headerline-breadcrumb-symbols-face nil
-			:weight 'extrabold :foreground "brightred")))
+			:weight 'extrabold :foreground "color-124")))
 
 (use-package lsp-ui
   :ensure t
