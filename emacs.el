@@ -83,7 +83,7 @@
    helm-recentf-fuzzy-match t)
   (helm-mode 1)
   (set-face-attribute 'helm-selection nil
-		      :background "color-23")
+		      :background "color-28")
 
   :bind (("C-c h" . helm-command-prefix)
 	 ("C-c h o" . helm-occur)
