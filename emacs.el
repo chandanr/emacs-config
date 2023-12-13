@@ -617,7 +617,7 @@
   (defun sjihs-python-setup-indent ()
     (let ((filename (buffer-file-name (current-buffer))))
       (setq filename (file-name-nondirectory filename))
-      (if (string= filename "perf-script.py")
+      (if (string-match "^perf-script.*\\.py$" filename)
 	  (setq indent-tabs-mode t
 		tabs-width 8
 		python-indent-offset 8)
