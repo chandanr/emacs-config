@@ -590,6 +590,9 @@
 	   "+HOME&+TODO={NEXTACTION\\|WAITING_FOR}&+SCHEDULED<=\"<today>\"")
 	  ("o" tags-todo
 	   "+OUTSIDE&+TODO={NEXTACTION\\|WAITING_FOR}&+SCHEDULED<=\"<today>\"")))
+  (set-face-attribute 'org-scheduled-today nil
+		      :foreground "Green")
+
   :hook ((org-mode . turn-on-auto-fill))
   :bind
   (("\C-cl" . org-store-link)
