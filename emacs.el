@@ -388,17 +388,18 @@
 	calendar-longitude 77.575279)
 
   (setq holiday-other-holidays
-	'((holiday-fixed 1 26 "Republic day")
-	  (holiday-fixed 3 22 "Ugadi")
+	'((holiday-fixed 1 1 "New year")
+	  (holiday-fixed 1 15 "Makara sankranti")
+	  (holiday-fixed 1 26 "Republic day")
+	  (holiday-fixed 4 9 "Ugadi")
+	  (holiday-fixed 4 11 "Ramzan")
 	  (holiday-fixed 5 1 "May day")
-	  (holiday-fixed 6 29 "Bakrid")
 	  (holiday-fixed 8 15 "Independence day")
-	  (holiday-fixed 9 18 "Ganesh Chaturthi")
 	  (holiday-fixed 10 2 "Gandhi Jayanti")
-	  (holiday-fixed 10 24 "Dussera")
+	  (holiday-fixed 10 31 "Deepavali-Narakachaturdashi")
 	  (holiday-fixed 11 1 "Karnataka rajyotsava")
-	  (holiday-fixed 11 13 "Deepavali")
-	  (holiday-fixed 12 25 "Christmas"))))
+	  (holiday-fixed 12 25 "Christmas")
+	  )))
 
 (use-package compile
   :config
