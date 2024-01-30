@@ -561,7 +561,8 @@
 	org-export-htmlize-output-type 'css
 	org-clock-idle-time 10
 	org-duration-format 'h:mm
-	org-clock-persist 'history)
+	org-clock-persist 'history
+	org-use-property-inheritance t)
   (org-clock-persistence-insinuate)
   (setq org-stuck-projects
 	'("+LEVEL=2/-DONE-SOMEDAY_MAYBE"
