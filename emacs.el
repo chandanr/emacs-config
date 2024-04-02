@@ -83,7 +83,7 @@
    helm-recentf-fuzzy-match t)
   (helm-mode 1)
   (set-face-attribute 'helm-selection nil
-		      :background "color-28")
+		      :background "color-24")
 
   :bind (("C-c h" . helm-command-prefix)
 	 ("C-c h o" . helm-occur)
@@ -733,7 +733,7 @@
 (set-face-attribute 'font-lock-string-face nil
 		    :foreground "LightSalmon")
 (set-face-attribute 'font-lock-comment-face nil
-		    :foreground "color-136")
+		    :foreground "color-214")
 (set-face-attribute 'font-lock-variable-name-face nil
 		    :foreground "yellow")
 (set-face-attribute 'font-lock-function-name-face nil
@@ -1670,7 +1670,7 @@
 
 ;; Misc stuff
 (set-face-attribute 'region nil
-		    :background "color-32")
+		    :background "color-24")
 
 ;; Bookmarks
 (setq bookmark-default-file "~/.emacs.d/bookmarks"
@@ -1738,5 +1738,7 @@
 
 ;; Enable global highlight mode
 (global-hi-lock-mode 1)
+(set-face-attribute 'highlight nil
+		    :background "color-238")
 
 (global-set-key [remap dabbrev-expand] 'hippie-expand)
