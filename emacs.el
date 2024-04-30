@@ -548,6 +548,7 @@
 	org-hide-leading-stars t
 	org-clock-persist t
 	org-startup-align-all-tables t
+	org-startup-folded t
 	org-enforce-todo-dependencies t
 	org-agenda-dim-blocked-tasks t
 	org-hierarchical-todo-statistics nil
