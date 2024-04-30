@@ -543,6 +543,7 @@
 
 (use-package org
   :config
+  (require 'ox-md)
   (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
   (setq org-export-with-sub-superscripts nil
 	org-hide-leading-stars t
