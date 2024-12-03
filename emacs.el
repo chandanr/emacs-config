@@ -1711,6 +1711,11 @@
 
 (global-set-key (kbd "<f4>") 'rename-buffer)
 
+(defun sjihs-rgrep (sjihs-regexp sjihs-dir)
+  (interactive "MSearch string: \nDDirectory name: ")
+  (rgrep sjihs-regexp "*" sjihs-dir nil))
+(global-set-key (kbd "C-c r") 'sjihs-rgrep)
+
 (defun sjihs-goto-line-with-feedback ()
   (interactive)
   (unwind-protect
