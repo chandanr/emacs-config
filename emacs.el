@@ -596,6 +596,21 @@
   (set-face-attribute 'org-scheduled-today nil
 		      :foreground "Green")
 
+  (defun sjihs-export-translation (backend)
+    (org-map-entries
+     (lambda ()
+       (let* ((current-level (org-current-level)))
+	 (when (> current-level 2)
+	   (let ((beg (line-beginning-position))
+		 (end (or (save-excursion
+			    (org-forward-element)
+			    (point))
+			  (point-max))))
+	     (delete-region beg end)
+	     (setq org-map-continue-from (point))
+	     ))))))
+
+
   :hook ((org-mode . turn-on-auto-fill))
   :bind
   (("\C-cl" . org-store-link)
