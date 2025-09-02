@@ -1721,7 +1721,7 @@
       backup-directory-alist `(("." . ,sjihs-backup-directory))
       browse-url-browser-function 'browse-url-generic
       browse-url-generic-program sjihs-browser-program
-      grep-command "grep -RniI "
+      grep-command "grep -RniI -E"
       find-name-arg "-iname")
 
 (global-set-key (kbd "<f4>") 'rename-buffer)
