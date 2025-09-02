@@ -412,6 +412,7 @@
 	   (compile-command (format "cc -g -Wall %s -o%s"
 				    filename (substring filename 0 -2))))
       (compile compile-command)))
+  :hook ((compilation-mode . (lambda () (toggle-truncate-lines))))
   :bind (("<f9>" . sjihs-c-compile)))
 
 (use-package gud-mode
