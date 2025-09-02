@@ -1735,9 +1735,9 @@
   (interactive)
   (unwind-protect
       (progn
-	(linum-mode 1)
+	(display-line-numbers-mode 1)
 	(call-interactively 'goto-line))
-    (linum-mode -1)))
+    (display-line-numbers-mode -1)))
 (global-set-key [remap goto-line] 'sjihs-goto-line-with-feedback)
 
 (defun sjihs-dos-to-unix (file-path)
