@@ -103,7 +103,7 @@
 	      ("M-." . xref-find-definitions)
 	      ("C-M-." . xref-find-apropos)
 	      ("M-," . xref-find-references)
-	      ("M-*" . xref-pop-marker-stack)))
+	      ("M-*" . xref-go-back)))
 
 (use-package helm-git-grep
   :defer nil
