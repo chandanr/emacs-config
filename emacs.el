@@ -1723,6 +1723,7 @@
       browse-url-browser-function 'browse-url-generic
       browse-url-generic-program sjihs-browser-program
       grep-command "grep -RniI -E"
+      grep-find-template "find <D> <X> -type f <F> -exec grep <C> -nI --null -E -e <R> /dev/null \{\} +"
       find-name-arg "-iname")
 
 (global-set-key (kbd "<f4>") 'rename-buffer)
