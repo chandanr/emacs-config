@@ -1705,7 +1705,6 @@
 (pending-delete-mode t)
 
 (fset 'yes-or-no-p 'y-or-n-p)
-(fset 'grep 'rgrep)
 
 (set-default 'truncate-lines t)
 
@@ -1722,15 +1721,35 @@
       backup-directory-alist `(("." . ,sjihs-backup-directory))
       browse-url-browser-function 'browse-url-generic
       browse-url-generic-program sjihs-browser-program
-      grep-command "grep -RniI -E"
-      grep-find-template "find <D> <X> -type f <F> -exec grep <C> -nI --null -E -e <R> /dev/null \{\} +"
       find-name-arg "-iname")
 
 (global-set-key (kbd "<f4>") 'rename-buffer)
 
-(defun sjihs-rgrep (sjihs-regexp sjihs-dir)
-  (interactive "MSearch string: \nDDirectory name: ")
-  (rgrep sjihs-regexp "*" sjihs-dir nil))
+(require 'grep)
+(fset 'grep 'rgrep)
+(grep-apply-setting 'grep-command "grep -RniI --color=never -E ")
+(grep-apply-setting
+ 'grep-find-template
+ "find <D> <X> -type f <F> -exec grep <C> -nI --color=never --null -E -e <R> /dev/null \{\} +")
+
+(defun sjihs-rgrep (read-file-pattern)
+  (interactive "P")
+  (let (search-pattern (file-pattern "ch") directory)
+    (setq search-pattern
+	  (read-string "Search pattern: "))
+
+    (if (equal read-file-pattern '(4))
+	(setq file-pattern "all"))
+
+    (if (equal read-file-pattern '(16))
+	(setq file-pattern
+	      (completing-read "Select file pattern: " grep-files-aliases
+			       nil t)))
+    (setq file-pattern
+	  (alist-get file-pattern grep-files-aliases nil nil 'equal))
+    (setq directory
+	  (read-directory-name "Directory name: " default-directory))
+    (rgrep search-pattern file-pattern directory nil)))
 (global-set-key (kbd "C-c r") 'sjihs-rgrep)
 
 (defun sjihs-goto-line-with-feedback ()
